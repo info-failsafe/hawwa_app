@@ -9,12 +9,14 @@ final indexProvider = StateProvider((ref) => 1);
 final pageWidgets = [Tags(), Monitors(), Recipients()];
 
 class Navigation extends ConsumerWidget {
+  const Navigation({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: pageWidgets.elementAt(ref.watch(indexProvider)),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.tag),
             label: 'タグ編集',

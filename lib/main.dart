@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:lottie/lottie.dart';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
-import 'package:hawwa_app/constants.dart';
+// import 'package:hawwa_app/constants.dart';
 import 'package:hawwa_app/view/navigation.dart';
 import 'package:hawwa_app/components/logo.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
@@ -22,8 +22,8 @@ void main() {
       child: MaterialApp(
           title: 'HAWWA',
           theme: ThemeData.light().copyWith(
-              primaryColor: Color.fromRGBO(0, 165, 162, 1),
-              scaffoldBackgroundColor: Color.fromRGBO(241, 251, 253, 1),
+              primaryColor: const Color.fromRGBO(0, 165, 162, 1),
+              scaffoldBackgroundColor: const Color.fromRGBO(241, 251, 253, 1),
               textTheme:
                   ThemeData.light().textTheme.apply(fontFamily: 'Murecho')),
           darkTheme: ThemeData.dark(),
@@ -31,6 +31,8 @@ void main() {
 }
 
 class LogIn extends ConsumerWidget {
+  const LogIn({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
@@ -38,21 +40,21 @@ class LogIn extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Logo(),
-          SizedBox(height: 32),
+          const SizedBox(height: 32),
           CustomTextField(
               labelText: 'E-mail',
               hintText: 'メールアドレス',
               obscureText: false,
               onChanged: (text) =>
                   ref.read(emailProvider.notifier).state = text),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           CustomTextField(
               labelText: 'password',
               hintText: 'パスワード',
               obscureText: true,
               onChanged: (text) =>
                   ref.read(passwordlProvider.notifier).state = text),
-          SizedBox(height: 32),
+          const SizedBox(height: 32),
           GradientButton(
             text: ref.watch(buttonProvider) ? 'ログイン' : '認証中',
             onPressed: ref.watch(buttonProvider)
@@ -72,8 +74,8 @@ class LogIn extends ConsumerWidget {
                     //   Navigator.push(context,
                     //       MaterialPageRoute(builder: (context) => Monitors()));
                     // }
-                    // Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => Navigation()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Navigation()));
                     ref.read(buttonProvider.notifier).state = true;
                   }
                 : () {},
@@ -81,7 +83,7 @@ class LogIn extends ConsumerWidget {
             //     minimumSize: MaterialStateProperty.all(
             //         Size(MediaQuery.of(context).size.width * 0.4, 48))),
           ),
-          SizedBox(height: 32),
+          const SizedBox(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -91,14 +93,14 @@ class LogIn extends ConsumerWidget {
                 size: 24,
                 // semanticLabel: 'Text Label',
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 'パスワードをお忘れの方はこちら',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ],
           ),
-          SizedBox(height: 32),
+          const SizedBox(height: 32),
           OutlinedButton(
             onPressed: () {},
             style: OutlinedButton.styleFrom(

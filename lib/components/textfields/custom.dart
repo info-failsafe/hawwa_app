@@ -7,12 +7,12 @@ class CustomTextField extends StatelessWidget {
   final void Function(String text) onChanged;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.hintText,
     required this.obscureText,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
