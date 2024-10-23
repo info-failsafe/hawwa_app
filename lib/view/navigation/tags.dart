@@ -1,12 +1,14 @@
 // import 'package:flutter/foundation.dart';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/freezed/tag.dart';
+
+import 'package:hawwa_app/components/textfields/filter.dart';
+import 'package:hawwa_app/view/drawers/header.dart';
+import 'package:hawwa_app/components/listviews/card.dart';
+import 'package:hawwa_app/components/buttons/edit.dart';
 
 final logger = Logger();
 
@@ -29,7 +31,7 @@ class Tags extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Tag> tagList = ref.watch(tagListProvider);
+    // List<Tag> tagList = ref.watch(tagListProvider);
     TagListNotifier tagListNotifier = ref.read(tagListProvider.notifier);
 
     return Scaffold(
@@ -49,70 +51,7 @@ class Tags extends ConsumerWidget {
                   onPressed: () => Scaffold.of(context).openEndDrawer())),
         ],
       ),
-      endDrawer: Theme(
-        data: Theme.of(context).copyWith(canvasColor: Colors.green),
-        child: Drawer(
-          child: SafeArea(
-              child: ListView(
-            children: [
-              SizedBox(
-                height: 100.0,
-                child: const UserAccountsDrawerHeader(
-                  accountName: Text('ユーザー名'),
-                  accountEmail: Text('info@example.com'),
-                  decoration:
-                      BoxDecoration(color: Color.fromRGBO(43, 63, 84, 1)),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.border_color),
-                title: const Text('パスワード変更'),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Do something
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.email),
-                title: const Text('メッセージ受信設定'),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Do something
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.label),
-                title: const Text('タグ管理'),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Do something
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.visibility),
-                title: const Text('死活監視'),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Do something
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('ログアウト'),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  // Do something
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          )),
-        ),
-      ),
+      endDrawer: HeaderDrawer(),
       body: Column(children: [
         SizedBox(width: MediaQuery.of(context).size.width, height: 16),
         FilterTextField(onChanged: (text) {}),
@@ -176,171 +115,6 @@ class Tags extends ConsumerWidget {
                   ),
                 ),
               ),
-              // ListView.builder(
-              // itemCount: 4,
-              // itemBuilder: (context, index) => Container(
-              //       width: MediaQuery.of(context).size.width - 32,
-              //       color: const Color.fromARGB(255, 255, 255, 255),
-              //       child: Padding(
-              //           padding: const EdgeInsets.only(
-              //               top: 8, right: 0, bottom: 8, left: 0),
-              //           child: Column(children: [
-              //             Row(
-              //               mainAxisAlignment:
-              //                   MainAxisAlignment.spaceBetween, // これで両端に寄せる
-              //               children: [
-              //                 Checkbox(
-              //                   // value: ref.watch(listProvider),
-              //                   value: false,
-              //                   activeColor: Colors.blue,
-              //                   onChanged: (bool? value) {},
-              //                 ),
-              //                 Container(
-              //                   child: Row(
-              //                     children: [
-              //                       TextButton(
-              //                         onPressed: () {/* ボタンがタップされた時の処理 */},
-              //                         style: ButtonStyle(
-              //                             foregroundColor:
-              //                                 WidgetStateProperty.all(
-              //                                     Colors.blue)),
-              //                         child: const Text('編集'),
-              //                       ),
-              //                       IconButton(
-              //                           icon: const Icon(Icons.delete),
-              //                           color: Colors.grey,
-              //                           onPressed: () {}),
-              //                     ],
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //             Align(
-              //               key: key,
-              //               alignment: Alignment.centerLeft,
-              //               child: Padding(
-              //                 key: key,
-              //                 padding: const EdgeInsets.only(
-              //                     top: 16, right: 16, bottom: 16, left: 16),
-              //                 child: Text(
-              //                   key: key,
-              //                   'タグ名テキスト',
-              //                   style: const TextStyle(
-              //                       color: Colors.black), //文字色ピンク
-              //                 ),
-              //               ),
-              //             ),
-              //           ])),
-              //     )),
-              Container(
-                width: MediaQuery.of(context).size.width - 32,
-                color: const Color.fromARGB(255, 255, 255, 255),
-                child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 0, right: 0, bottom: 8, left: 0),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween, // これで両端に寄せる
-                        children: [
-                          Checkbox(
-                            // value: ref.watch(listProvider),
-                            value: false,
-                            activeColor: Colors.blue,
-                            onChanged: (bool? value) {},
-                          ),
-                          Container(
-                            child: Row(
-                              children: [
-                                TextButton(
-                                  onPressed: () {},
-                                  child: Container(
-                                    color: const Color.fromARGB(
-                                        255, 255, 255, 255),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 0, right: 0, bottom: 8, left: 0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            // 中央寄せ
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              TextButton.icon(
-                                                style: ButtonStyle(
-                                                    foregroundColor:
-                                                        WidgetStateProperty.all(
-                                                            Colors.blue)),
-                                                onPressed: () => showDialog(
-                                                    //編集タップ時のダイアログ
-                                                    context: context,
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        AlertDialog(
-                                                          title: const Text(
-                                                              "Notifications"),
-                                                          content: const Text(
-                                                              "Do you allow notifications?"),
-                                                          actions: <Widget>[
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.pop(
-                                                                      context,
-                                                                      'Cancel'),
-                                                              child: const Text(
-                                                                  'Cancel'),
-                                                            ),
-                                                            TextButton(
-                                                              child: const Text(
-                                                                  'Approve'),
-                                                              onPressed: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
-                                                              },
-                                                            ),
-                                                          ],
-                                                        )),
-                                                label: const Text('編集'),
-                                                icon: const Icon(
-                                                    Icons.chevron_right),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    color: Colors.grey,
-                                    onPressed: () {}),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Align(
-                        key: key,
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          key: key,
-                          padding: const EdgeInsets.only(
-                              top: 16, right: 16, bottom: 16, left: 16),
-                          child: Text(
-                            key: key,
-                            'タグ名テキスト',
-                            style:
-                                const TextStyle(color: Colors.black), //文字色ピンク
-                          ),
-                        ),
-                      ),
-                    ])),
-              ),
-              const SizedBox(height: 16),
-              const SizedBox(height: 24),
               // AlertDialog(
               //   title: Text('データを消してしまってもいいですか？'),
               //   content: Text('こうかいしませんね？'),
@@ -358,6 +132,55 @@ class Tags extends ConsumerWidget {
             ],
           ),
         ),
+        Expanded(
+            child: CardListView(
+          itemCount: ref.watch(tagListProvider).length,
+          item: Padding(
+              padding:
+                  EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
+              child: Column(children: [
+                Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween, // これで両端に寄せる
+                  children: [
+                    Checkbox(
+                      // value: ref.watch(listProvider),
+                      value: false,
+                      activeColor: Colors.blue,
+                      onChanged: (bool? value) {},
+                    ),
+                    Container(
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {},
+                            child: Column(
+                              children: [
+                                EditButtons(itemCount: 1),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Align(
+                  key: key,
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    key: key,
+                    padding: const EdgeInsets.only(
+                        top: 16, right: 16, bottom: 16, left: 16),
+                    child: Text(
+                      key: key,
+                      'タグ名テキスト',
+                      style: const TextStyle(color: Colors.black), //文字色ピンク
+                    ),
+                  ),
+                ),
+              ])),
+        )),
       ]),
     );
   }

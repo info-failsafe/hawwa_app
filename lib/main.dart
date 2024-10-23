@@ -24,6 +24,7 @@ void main() {
           theme: ThemeData.light().copyWith(
               primaryColor: const Color.fromRGBO(0, 165, 162, 1),
               scaffoldBackgroundColor: const Color.fromRGBO(241, 251, 253, 1),
+              cardColor: const Color.fromRGBO(43, 63, 84, 1),
               textTheme:
                   ThemeData.light().textTheme.apply(fontFamily: 'Murecho')),
           darkTheme: ThemeData.dark(),
