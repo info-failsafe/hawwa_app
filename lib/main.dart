@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
 // import 'package:hawwa_app/constants.dart';
-import 'package:hawwa_app/view/navigation.dart';
+import 'package:hawwa_app/screen/navigation.dart';
 import 'package:hawwa_app/components/logo.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/components/buttons/gradient.dart';
@@ -25,10 +25,12 @@ void main() {
               primaryColor: const Color.fromRGBO(0, 165, 162, 1),
               scaffoldBackgroundColor: const Color.fromRGBO(241, 251, 253, 1),
               cardColor: const Color.fromRGBO(43, 63, 84, 1),
+              // focusColor: const Color.fromARGB(255, 206, 255, 255),
+              primaryColorLight: const Color.fromARGB(255, 202, 243, 236),
               textTheme:
                   ThemeData.light().textTheme.apply(fontFamily: 'Murecho')),
           darkTheme: ThemeData.dark(),
-          home: Scaffold(body: LogIn()))));
+          home: const Scaffold(body: LogIn()))));
 }
 
 class LogIn extends ConsumerWidget {
@@ -40,7 +42,7 @@ class LogIn extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Logo(),
+          const Logo(),
           const SizedBox(height: 32),
           CustomTextField(
               labelText: 'E-mail',
@@ -75,8 +77,10 @@ class LogIn extends ConsumerWidget {
                     //   Navigator.push(context,
                     //       MaterialPageRoute(builder: (context) => Monitors()));
                     // }
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Navigation()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Navigation()));
                     ref.read(buttonProvider.notifier).state = true;
                   }
                 : () {},

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:hawwa_app/view/navigation/tags.dart';
-import 'package:hawwa_app/view/navigation/monitors.dart';
-import 'package:hawwa_app/view/navigation/recipients.dart';
+import 'package:hawwa_app/screen/navigation/tags.dart';
+import 'package:hawwa_app/screen/navigation/monitors.dart';
+import 'package:hawwa_app/screen/navigation/recipients.dart';
 
 final indexProvider = StateProvider((ref) => 1);
-final pageWidgets = [Tags(), Monitors(), Recipients()];
+final pageWidgets = [const Tags(), const Monitors(), const Recipients()];
 
 class Navigation extends ConsumerWidget {
   const Navigation({super.key});
