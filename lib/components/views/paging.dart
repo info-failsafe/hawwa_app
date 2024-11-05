@@ -29,6 +29,28 @@ class PagingArea extends ConsumerWidget {
           ],
         ),
       ),
+      SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: [
+            Align(
+              key: key,
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                key: key,
+                padding: const EdgeInsets.only(
+                    top: 16.0, right: 20.0, bottom: 16.0, left: 24.0),
+                child: Text(
+                  key: key,
+                  '100件のうち、1～20件を表示',
+                  style: const TextStyle(color: Colors.blueGrey),
+                ),
+              ),
+            ),
+            // )
+          ],
+        ),
+      ),
     ]);
   }
 }

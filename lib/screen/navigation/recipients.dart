@@ -80,12 +80,11 @@ class Recipients extends ConsumerWidget {
                                 children: [
                                   const SizedBox(height: 40),
                                   CustomTextField(
-                                    labelText: 'タグ名',
-                                    hintText: '#タグ',
+                                    labelText: '受信設定',
+                                    hintText: 'hawwa@co.jp',
                                     obscureText: false,
                                     onChanged: (text) {},
                                   ),
-                                  const SizedBox(height: 24.0),
                                   const SizedBox(height: 24.0),
                                 ],
                               ),
@@ -102,11 +101,33 @@ class Recipients extends ConsumerWidget {
                       child: Padding(
                         key: key,
                         padding: const EdgeInsets.only(
-                            top: 16, right: 16, bottom: 16, left: 16),
-                        child: Text(
-                          key: key,
-                          'タグ名テキスト',
-                          style: const TextStyle(color: Colors.black), //文字色ピンク
+                            top: 8, right: 16, bottom: 16, left: 16),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  top: 2, bottom: 2, left: 8, right: 8),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).primaryColorLight,
+                                // border: Border.all(
+                                //     color: Colors.blueGrey, width: 1.0),
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                              child: Text(
+                                key: key,
+                                'E-mail',
+                                style: const TextStyle(
+                                    color: Colors.blueGrey), //文字色ピンク
+                              ),
+                            ),
+                            SizedBox(width: 8.0),
+                            Text(
+                              key: key,
+                              'sample@co.jp',
+                              style:
+                                  const TextStyle(color: Colors.black), //文字色ピンク
+                            )
+                          ],
                         ),
                       ),
                     ),

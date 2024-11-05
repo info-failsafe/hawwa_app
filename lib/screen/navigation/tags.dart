@@ -40,24 +40,6 @@ class Tags extends ConsumerWidget {
     TagListNotifier tagListNotifier = ref.read(tagListProvider.notifier);
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('タグ管理'),
-      //   automaticallyImplyLeading: false,
-      //   actions: [
-      //     IconButton(
-      //         icon: const Icon(Icons.add),
-      //         onPressed: () {
-      //           tagListNotifier.add(const Tag(
-      //               id: 1, org_id: 1, flag: 2, name: 'test', checked: false));
-      //         }),
-      //     Builder(
-      //         builder: (context) => IconButton(
-      //             icon: const Icon(Icons.menu),
-      //             onPressed: () => Scaffold.of(context).openEndDrawer())),
-      //   ],
-      // ),
-
-      // appBar: NavigationAppBar(text: 'タグ管理'),
       appBar: NavigationAppBar(
           text: 'タグ管理',
           onPressed: () {
@@ -74,28 +56,6 @@ class Tags extends ConsumerWidget {
         const SizedBox(height: 8),
         RefineButton(), // 条件で絞り込んで表示
         PagingArea(), // 次へ
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Column(
-            children: [
-              Align(
-                key: key,
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  key: key,
-                  padding: const EdgeInsets.only(
-                      top: 16.0, right: 20.0, bottom: 16.0, left: 24.0),
-                  child: Text(
-                    key: key,
-                    '100件のうち、1～20件を表示',
-                    style: const TextStyle(color: Colors.blueGrey),
-                  ),
-                ),
-              ),
-              // )
-            ],
-          ),
-        ),
 
         Expanded(
             child: CardListView(
@@ -134,7 +94,6 @@ class Tags extends ConsumerWidget {
                                 obscureText: false,
                                 onChanged: (text) {},
                               ),
-                              const SizedBox(height: 24.0),
                               const SizedBox(height: 24.0),
                             ],
                           ),
