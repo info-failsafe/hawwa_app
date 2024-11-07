@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hawwa_app/screen/dialog/remove.dart';
 
 class RemoveButton extends ConsumerWidget {
   final int id;
@@ -20,26 +21,7 @@ class RemoveButton extends ConsumerWidget {
       onPressed: () => showDialog(
           //編集タップ時のダイアログ
           context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: const Text("削除しますか？"),
-                content: const Text("削除したコンテンツはゴミ箱に移動します。"),
-                actions: <Widget>[
-                  TextButton(
-                    style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(Colors.blue)),
-                    onPressed: () => Navigator.pop(context, 'Cancel'),
-                    child: const Text('キャンセル'),
-                  ),
-                  TextButton(
-                    style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(Colors.red)),
-                    child: const Text('削除'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              )),
+          builder: (BuildContext context) => RemoveDialog(id: 1)),
     );
   }
 }

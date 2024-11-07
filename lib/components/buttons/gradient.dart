@@ -11,9 +11,13 @@ final colorLoginButtonProvider = StateProvider((ref) {
 class GradientButton extends ConsumerWidget {
   final String text;
   final VoidCallback onPressed;
+  final BorderRadius? radius;
 
   const GradientButton(
-      {super.key, required this.text, required this.onPressed});
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      this.radius = const BorderRadius.all(Radius.circular(64))});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +43,7 @@ class GradientButton extends ConsumerWidget {
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
           ),
-          borderRadius: BorderRadius.circular(64),
+          borderRadius: radius,
         ),
         child: Text(
           text,

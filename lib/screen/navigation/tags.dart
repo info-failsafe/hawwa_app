@@ -1,13 +1,17 @@
 // import 'package:flutter/foundation.dart';
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hawwa_app/components/containers/card.dart';
+import 'package:hawwa_app/constants.dart';
 import 'package:logger/logger.dart';
 
 import 'package:hawwa_app/freezed/tag.dart';
 
 import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/screen/drawers/header.dart';
-import 'package:hawwa_app/components/listviews/card.dart';
 import 'package:hawwa_app/components/buttons/edit.dart';
 import 'package:hawwa_app/components/buttons/remove.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
@@ -28,7 +32,18 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
     state = [...state, tag];
   }
 
-  void change(id, column) {}
+  void change(index, column, value) {
+    switch (column) {
+      case 'checked':
+        bool checked = false;
+        if (value == true) checked = true;
+        state = [
+          for (int i = 0; i < state.length; i++)
+            if (i == index) state[i].copyWith(checked: checked) else state[i]
+        ];
+        break;
+    }
+  }
 }
 
 class Tags extends ConsumerWidget {
@@ -44,7 +59,12 @@ class Tags extends ConsumerWidget {
           text: 'タグ管理',
           onPressed: () {
             tagListNotifier.add(const Tag(
-                id: 1, org_id: 1, flag: 2, name: 'test', checked: false));
+                id: 1,
+                org_id: 1,
+                flag: 2,
+                name: 'タグ名称',
+                remarks: 'ここに備考が入ります。',
+                checked: false));
           }),
 
       // NavigationAppBar(text: 'aaaaaaaaaaa'),
@@ -55,70 +75,72 @@ class Tags extends ConsumerWidget {
         FilterTextField(onChanged: (text) {}),
         const SizedBox(height: 8),
         RefineButton(), // 条件で絞り込んで表示
-        PagingArea(), // 次へ
+        PagingArea(), // 全て選択
 
         Expanded(
-            child: CardListView(
+            child: ListView.builder(
           itemCount: ref.watch(tagListProvider).length,
-          item: Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
+          itemBuilder: (ctx, idx) => CardContainer(
               child: Column(children: [
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // これで両端に寄せる
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, // これで両端に寄せる
+              children: [
+                Checkbox(
+                  value: ref.watch(tagListProvider)[idx].checked,
+                  activeColor: Colors.blue,
+                  onChanged: (bool? value) =>
+                      tagListNotifier.change(idx, 'checked', value),
+                ),
+                Container(
+                    child: Row(
+                  // 中央寄せ
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Checkbox(
-                      // value: ref.watch(listProvider),
-                      value: false,
-                      activeColor: Colors.blue,
-                      onChanged: (bool? value) {},
-                    ),
-                    Container(
-                        child: Row(
-                      // 中央寄せ
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        EditButton(
-                          id: 1,
-                          // 編集タップ時のダイアログ
-                          column: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // mainAxisSize: MainAxisSize.min,
-                            // mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 40),
-                              CustomTextField(
-                                labelText: 'タグ名',
-                                hintText: '#タグ',
-                                obscureText: false,
-                                onChanged: (text) {},
-                              ),
-                              const SizedBox(height: 24.0),
-                            ],
+                    EditButton(
+                      id: 1,
+                      // 編集タップ時のダイアログ
+                      column: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisSize: MainAxisSize.min,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 40),
+                          CustomTextField(
+                            labelText: 'タグ名',
+                            hintText: '#タグ',
+                            obscureText: false,
+                            onChanged: (text) {},
                           ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        const RemoveButton(id: 1),
-                      ],
-                    )),
-                  ],
-                ),
-                Align(
-                  key: key,
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    key: key,
-                    padding: const EdgeInsets.only(
-                        top: 16, right: 16, bottom: 16, left: 16),
-                    child: Text(
-                      key: key,
-                      'タグ名テキスト',
-                      style: const TextStyle(color: Colors.black), //文字色ピンク
+                          const SizedBox(height: 24.0),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8.0),
+                    const RemoveButton(id: 1),
+                  ],
+                )),
+              ],
+            ),
+            Align(
+              key: key,
+              alignment: Alignment.centerLeft,
+              child: Column(
+                children: [
+                  Text(
+                    key: key,
+                    ref.watch(tagListProvider)[idx].name,
+                    style: const TextStyle(color: Colors.black, fontSize: 17),
                   ),
-                ),
-              ])),
+                  const SizedBox(height: 16.0),
+                  Text(
+                    key: key,
+                    ref.watch(tagListProvider)[idx].remarks,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            ),
+          ])),
         )),
       ]),
     );

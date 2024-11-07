@@ -1,14 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'tag.freezed.dart';
+part 'monitor.freezed.dart';
 
 @freezed
-class Tag with _$Tag {
-  const factory Tag({
+class Monitor with _$Monitor {
+  const factory Monitor({
     required int id,
     required int org_id,
     required int flag,
     required String name,
-    required String remarks,
     required bool checked,
-  }) = _Tag;
+  }) = _Monitor;
 }
