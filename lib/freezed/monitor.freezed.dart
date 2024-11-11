@@ -19,7 +19,8 @@ mixin _$Monitor {
   int get id => throw _privateConstructorUsedError;
   int get org_id => throw _privateConstructorUsedError;
   int get flag => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
+  String get remarks => throw _privateConstructorUsedError;
   bool get checked => throw _privateConstructorUsedError;
 
   /// Create a copy of Monitor
@@ -33,7 +34,8 @@ abstract class $MonitorCopyWith<$Res> {
   factory $MonitorCopyWith(Monitor value, $Res Function(Monitor) then) =
       _$MonitorCopyWithImpl<$Res, Monitor>;
   @useResult
-  $Res call({int id, int org_id, int flag, String name, bool checked});
+  $Res call(
+      {int id, int org_id, int flag, String url, String remarks, bool checked});
 }
 
 /// @nodoc
@@ -54,7 +56,8 @@ class _$MonitorCopyWithImpl<$Res, $Val extends Monitor>
     Object? id = null,
     Object? org_id = null,
     Object? flag = null,
-    Object? name = null,
+    Object? url = null,
+    Object? remarks = null,
     Object? checked = null,
   }) {
     return _then(_value.copyWith(
@@ -70,9 +73,13 @@ class _$MonitorCopyWithImpl<$Res, $Val extends Monitor>
           ? _value.flag
           : flag // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      remarks: null == remarks
+          ? _value.remarks
+          : remarks // ignore: cast_nullable_to_non_nullable
               as String,
       checked: null == checked
           ? _value.checked
@@ -89,7 +96,8 @@ abstract class _$$MonitorImplCopyWith<$Res> implements $MonitorCopyWith<$Res> {
       __$$MonitorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, int org_id, int flag, String name, bool checked});
+  $Res call(
+      {int id, int org_id, int flag, String url, String remarks, bool checked});
 }
 
 /// @nodoc
@@ -108,7 +116,8 @@ class __$$MonitorImplCopyWithImpl<$Res>
     Object? id = null,
     Object? org_id = null,
     Object? flag = null,
-    Object? name = null,
+    Object? url = null,
+    Object? remarks = null,
     Object? checked = null,
   }) {
     return _then(_$MonitorImpl(
@@ -124,9 +133,13 @@ class __$$MonitorImplCopyWithImpl<$Res>
           ? _value.flag
           : flag // ignore: cast_nullable_to_non_nullable
               as int,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      remarks: null == remarks
+          ? _value.remarks
+          : remarks // ignore: cast_nullable_to_non_nullable
               as String,
       checked: null == checked
           ? _value.checked
@@ -143,7 +156,8 @@ class _$MonitorImpl implements _Monitor {
       {required this.id,
       required this.org_id,
       required this.flag,
-      required this.name,
+      required this.url,
+      required this.remarks,
       required this.checked});
 
   @override
@@ -153,13 +167,15 @@ class _$MonitorImpl implements _Monitor {
   @override
   final int flag;
   @override
-  final String name;
+  final String url;
+  @override
+  final String remarks;
   @override
   final bool checked;
 
   @override
   String toString() {
-    return 'Monitor(id: $id, org_id: $org_id, flag: $flag, name: $name, checked: $checked)';
+    return 'Monitor(id: $id, org_id: $org_id, flag: $flag, url: $url, remarks: $remarks, checked: $checked)';
   }
 
   @override
@@ -170,12 +186,14 @@ class _$MonitorImpl implements _Monitor {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.org_id, org_id) || other.org_id == org_id) &&
             (identical(other.flag, flag) || other.flag == flag) &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.remarks, remarks) || other.remarks == remarks) &&
             (identical(other.checked, checked) || other.checked == checked));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, org_id, flag, name, checked);
+  int get hashCode =>
+      Object.hash(runtimeType, id, org_id, flag, url, remarks, checked);
 
   /// Create a copy of Monitor
   /// with the given fields replaced by the non-null parameter values.
@@ -191,7 +209,8 @@ abstract class _Monitor implements Monitor {
       {required final int id,
       required final int org_id,
       required final int flag,
-      required final String name,
+      required final String url,
+      required final String remarks,
       required final bool checked}) = _$MonitorImpl;
 
   @override
@@ -201,7 +220,9 @@ abstract class _Monitor implements Monitor {
   @override
   int get flag;
   @override
-  String get name;
+  String get url;
+  @override
+  String get remarks;
   @override
   bool get checked;
 

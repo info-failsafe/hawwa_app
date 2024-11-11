@@ -50,7 +50,13 @@ class Recipients extends ConsumerWidget {
           text: '受信設定',
           onPressed: () {
             recipientListNotifier.add(const Recipient(
-                id: 1, org_id: 1, flag: 2, name: 'test', checked: false));
+                id: 1,
+                org_id: 1,
+                flag: 2,
+                name: 'sample@co.jp',
+                checked: false,
+                limited: 200,
+                usage: 2));
           }),
       body: SafeArea(
         child: Column(
@@ -70,29 +76,25 @@ class Recipients extends ConsumerWidget {
                   mainAxisAlignment:
                       MainAxisAlignment.spaceBetween, // これで両端に寄せる
                   children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            // value: ref.watch(listProvider),
-                            // value: false,
-                            value:
-                                ref.watch(recipientListProvider)[idx].checked,
-                            activeColor: Colors.blue,
-                            onChanged: (bool? value) => recipientListNotifier
-                                .change(idx, 'checked', value),
-                          ),
-                          const Text(
-                            '回数制限　',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          const Text('1'),
-                          const Text('回 / 200回'),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          // value: ref.watch(listProvider),
+                          // value: false,
+                          value: ref.watch(recipientListProvider)[idx].checked,
+                          activeColor: Colors.blue,
+                          onChanged: (bool? value) => recipientListNotifier
+                              .change(idx, 'checked', value),
+                        ),
+                        const Text(
+                          '回数制限　',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Text(
+                            '${ref.watch(recipientListProvider)[idx].usage} 回 / ${ref.watch(recipientListProvider)[idx].limited} 回'),
+                      ],
                     ),
-                    Container(
-                        child: Row(
+                    Row(
                       // 中央寄せ
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -118,7 +120,7 @@ class Recipients extends ConsumerWidget {
                         const SizedBox(width: 8.0),
                         const RemoveButton(id: 1),
                       ],
-                    )),
+                    ),
                   ],
                 ),
                 Align(
@@ -145,11 +147,12 @@ class Recipients extends ConsumerWidget {
                             style: const TextStyle(color: Colors.blueGrey),
                           ),
                         ),
-                        SizedBox(width: 8.0),
+                        const SizedBox(width: 8.0),
                         Text(
                           key: key,
-                          'sample@co.jp',
-                          style: const TextStyle(color: Colors.black),
+                          ref.watch(recipientListProvider)[idx].name,
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 18.0),
                         )
                       ],
                     ),

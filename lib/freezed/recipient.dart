@@ -9,5 +9,7 @@ class Recipient with _$Recipient {
     required int flag,
     required String name,
     required bool checked,
+    required int limited,
+    required int usage,
   }) = _Recipient;
 }

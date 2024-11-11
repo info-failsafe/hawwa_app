@@ -21,7 +21,7 @@ class RemoveButton extends ConsumerWidget {
       onPressed: () => showDialog(
           //編集タップ時のダイアログ
           context: context,
-          builder: (BuildContext context) => RemoveDialog(id: 1)),
+          builder: (BuildContext context) => const RemoveDialog(id: 1)),
     );
   }
 }

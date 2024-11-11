@@ -16,7 +16,7 @@ class PagingArea extends ConsumerWidget {
     return Column(children: [
       Container(
         // color: const Color.fromARGB(255, 202, 243, 236),
-        padding: EdgeInsetsDirectional.all(8.0),
+        padding: const EdgeInsetsDirectional.all(8.0),
         color: Theme.of(context).primaryColorLight,
         child: Row(
           // mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +48,7 @@ class PagingArea extends ConsumerWidget {
               onPressed: () => showDialog(
                 //編集タップ時のダイアログ
                 context: context,
-                builder: (BuildContext context) => RemoveDialog(id: 1),
+                builder: (BuildContext context) => const RemoveDialog(id: 1),
               ),
               label: const Text('全て削除'),
               icon: const Icon(Icons.delete),
@@ -56,7 +56,7 @@ class PagingArea extends ConsumerWidget {
           ],
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 8,
       )
       // SizedBox(

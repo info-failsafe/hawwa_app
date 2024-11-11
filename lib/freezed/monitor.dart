@@ -7,7 +7,8 @@ class Monitor with _$Monitor {
     required int id,
     required int org_id,
     required int flag,
-    required String name,
+    required String url,
+    required String remarks,
     required bool checked,
   }) = _Monitor;
 }

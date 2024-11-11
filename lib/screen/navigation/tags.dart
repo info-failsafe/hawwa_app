@@ -1,11 +1,8 @@
 // import 'package:flutter/foundation.dart';
-import 'dart:developer';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hawwa_app/components/containers/card.dart';
-import 'package:hawwa_app/constants.dart';
 import 'package:logger/logger.dart';
 
 import 'package:hawwa_app/freezed/tag.dart';
@@ -74,8 +71,8 @@ class Tags extends ConsumerWidget {
         SizedBox(width: MediaQuery.of(context).size.width, height: 16),
         FilterTextField(onChanged: (text) {}),
         const SizedBox(height: 8),
-        RefineButton(), // 条件で絞り込んで表示
-        PagingArea(), // 全て選択
+        const RefineButton(), // 条件で絞り込んで表示
+        const PagingArea(), // 全て選択
 
         Expanded(
             child: ListView.builder(
@@ -92,51 +89,56 @@ class Tags extends ConsumerWidget {
                       tagListNotifier.change(idx, 'checked', value),
                 ),
                 Container(
-                    child: Row(
-                  // 中央寄せ
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    EditButton(
-                      id: 1,
-                      // 編集タップ時のダイアログ
-                      column: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        // mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 40),
-                          CustomTextField(
-                            labelText: 'タグ名',
-                            hintText: '#タグ',
-                            obscureText: false,
-                            onChanged: (text) {},
-                          ),
-                          const SizedBox(height: 24.0),
-                        ],
+                  child: Row(
+                    // 中央寄せ
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      EditButton(
+                        id: 1,
+                        // 編集タップ時のダイアログ
+                        column: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // mainAxisSize: MainAxisSize.min,
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 40),
+                            CustomTextField(
+                              labelText: 'タグ名',
+                              hintText: '#タグ',
+                              obscureText: false,
+                              onChanged: (text) {},
+                            ),
+                            const SizedBox(height: 24.0),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    const RemoveButton(id: 1),
-                  ],
-                )),
+                      const SizedBox(width: 8.0),
+                      const RemoveButton(id: 1),
+                    ],
+                  ),
+                ),
               ],
             ),
-            Align(
-              key: key,
-              alignment: Alignment.centerLeft,
+            Container(
+              padding: const EdgeInsets.only(
+                  top: 0.0, bottom: 8.0, left: 16.0, right: 16.0),
+              width: double.infinity,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     key: key,
                     ref.watch(tagListProvider)[idx].name,
                     style: const TextStyle(color: Colors.black, fontSize: 17),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    key: key,
-                    ref.watch(tagListProvider)[idx].remarks,
-                    style: const TextStyle(color: Colors.black),
-                  ),
+                  ), //タグ名称
+                  const SizedBox(height: 8.0),
+
+                  if (ref.watch(tagListProvider)[idx].remarks.isNotEmpty)
+                    Text(
+                      key: key,
+                      ref.watch(tagListProvider)[idx].remarks,
+                      style: const TextStyle(color: Colors.grey),
+                    ), //備考
                 ],
               ),
             ),

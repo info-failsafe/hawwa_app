@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hawwa_app/components/buttons/gradient.dart';
 
 import 'package:hawwa_app/components/textfields/custom.dart';
 
@@ -27,7 +26,7 @@ class UpdateView extends ConsumerWidget {
             ],
           )),
           Padding(
-            padding: EdgeInsets.all(0.0),
+            padding: const EdgeInsets.all(0.0),
             child: Row(
               children: [
                 Expanded(
@@ -38,7 +37,7 @@ class UpdateView extends ConsumerWidget {
                         // 角を丸める
                         borderRadius: BorderRadius.circular(0),
                       ),
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                     ),
                     onPressed: () => Navigator.pop(context, 'Cancel'),
                     child: const Text(
@@ -58,7 +57,7 @@ class UpdateView extends ConsumerWidget {
                         // 角を丸める
                         borderRadius: BorderRadius.circular(0),
                       ),
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                     ),
                     onPressed: () => Navigator.pop(context, 'Cancel'),
                     child: const Text(
