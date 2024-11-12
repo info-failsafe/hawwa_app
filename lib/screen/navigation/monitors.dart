@@ -57,10 +57,12 @@ class Monitors extends ConsumerWidget {
               org_id: 1,
               flag: 2,
               url: 'https://hawwa.failsafe.jp',
+              tags: [1, 2, 3],
               remarks: '備考テキスト',
               checked: false,
             ),
           );
+          logger.d(ref.watch(MonitorListProvider));
         },
       ),
       body: SafeArea(
