@@ -19,7 +19,7 @@ class EditButton extends ConsumerWidget {
       // 中央寄せ
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        TextButton.icon(
+        TextButton(
           style: ButtonStyle(
               foregroundColor: WidgetStateProperty.all(Colors.blue)),
           onPressed: () => showDialog(
@@ -36,7 +36,7 @@ class EditButton extends ConsumerWidget {
           //             children: [column],
           //           ),
           //         )),
-          label: const Text('編集'),
+          child: const Text('編集'),
         ),
       ],
     );

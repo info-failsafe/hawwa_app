@@ -4,6 +4,7 @@ import 'package:hawwa_app/components/appbars/navigation.dart';
 
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/freezed/monitor.dart';
+import 'package:hawwa_app/freezed/tag.dart';
 import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/components/views/paging.dart';
 import 'package:hawwa_app/components/views/refine.dart';
@@ -12,14 +13,15 @@ import 'package:hawwa_app/components/buttons/remove.dart';
 import 'package:hawwa_app/components/buttons/edit.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/components/containers/card.dart';
+import 'package:hawwa_app/main.dart';
 
+// monitor
 final MonitorListProvider =
     StateNotifierProvider<MonitorListNotifier, List<Monitor>>(
         (ref) => MonitorListNotifier());
 
 class MonitorListNotifier extends StateNotifier<List<Monitor>> {
   MonitorListNotifier() : super([]);
-
   void add(Monitor monitor) {
     state = [...state, monitor];
   }
@@ -62,7 +64,7 @@ class Monitors extends ConsumerWidget {
               checked: false,
             ),
           );
-          logger.d(ref.watch(MonitorListProvider));
+          // logger.d(ref.watch(MonitorListProvider));
         },
       ),
       body: SafeArea(
@@ -96,7 +98,7 @@ class Monitors extends ConsumerWidget {
                                   .change(idx, 'checked', value),
                             ),
                           ),
-                          SizedBox(width: 8.0),
+                          SizedBox(width: 4.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -121,23 +123,38 @@ class Monitors extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      EditButton(
-                        id: 1,
-                        // 編集タップ時のダイアログ
-                        column: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 40),
-                            CustomTextField(
-                              labelText: 'タグ名',
-                              hintText: '#タグ',
-                              obscureText: false,
-                              onChanged: (text) {},
-                            ),
-                            const SizedBox(height: 24.0),
-                          ],
-                        ),
-                      ),
+                      // TextButton(
+                      //   style: ButtonStyle(
+                      //       foregroundColor:
+                      //           WidgetStateProperty.all(Colors.blue)),
+                      //   onPressed: () => () {},
+                      //   child: const Text('編集'),
+                      // ),
+                      PopupMenuButton<String>(
+                          onSelected: (String value) {
+                            print('object');
+                          },
+                          child: const Text(
+                            '編集',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          // icon: Icon(Icons.more_vert), // メニューアイコンの設定
+                          itemBuilder: (BuildContext context) {
+                            return <PopupMenuEntry<String>>[
+                              const PopupMenuItem<String>(
+                                value: 'item',
+                                child: Text('アイテム1'),
+                              ),
+                              const PopupMenuItem<String>(
+                                value: 'item',
+                                child: Text('アイテム2'),
+                              ),
+                              const PopupMenuItem<String>(
+                                value: 'item',
+                                child: Text('アイテム3'),
+                              ),
+                            ];
+                          }),
                     ],
                   ),
                   Container(
@@ -225,7 +242,7 @@ class Monitors extends ConsumerWidget {
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          Text('回 / 週'),
+                                          Text(' 回 / 週'),
                                         ],
                                       ),
                                     )
