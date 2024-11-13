@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hawwa_app/components/appbars/navigation.dart';
 
+import 'package:hawwa_app/constants.dart';
+import 'package:hawwa_app/providers.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/freezed/monitor.dart';
 import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/components/views/paging.dart';
 import 'package:hawwa_app/components/views/refine.dart';
-import 'package:hawwa_app/components/appbars/navigation.dart';
-import 'package:hawwa_app/components/buttons/remove.dart';
+// import 'package:hawwa_app/components/appbars/navigation.dart';
+// import 'package:hawwa_app/components/buttons/remove.dart';
 import 'package:hawwa_app/components/buttons/edit.dart';
-import 'package:hawwa_app/components/textfields/custom.dart';
+// import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/components/containers/card.dart';
+import 'package:hawwa_app/screen/navigation/tags.dart';
 
-final MonitorListProvider =
+final tagListProvider = StateProvider<Map<int, String>>((ref) => {});
+final monitorListProvider =
     StateNotifierProvider<MonitorListNotifier, List<Monitor>>(
         (ref) => MonitorListNotifier());
 
@@ -38,14 +43,65 @@ class MonitorListNotifier extends StateNotifier<List<Monitor>> {
   }
 }
 
-class Monitors extends ConsumerWidget {
+class Monitors extends ConsumerWidget with WidgetsBindingObserver {
   const Monitors({super.key});
+
+  // タグ取得
+  void _getTagList(WidgetRef ref) {
+    final tagList = ref.watch(tagListProvider);
+    final monitorList = ref.watch(monitorListProvider);
+    List<int> list = [];
+    var result = false;
+    for (int i = 0; i < monitorList.length; i++) {
+      for (int n = 0; n < monitorList[i].tags.length; n++) {
+        list = [...list, monitorList[i].tags[n]];
+      }
+    }
+    for (int i = 0; i < list.length; i++) {
+      if (!tagList.containsKey(list[i])) result = true;
+    }
+    // タグリスト取得
+    if (result) {
+      Constants.logger.d('タグリストデータ取得');
+      ref.read(tagListProvider.notifier).state[2] = '２番めテスト';
+      ref.read(tagListProvider.notifier).state[5] = '５番目テスト';
+      ref.read(tagListProvider.notifier).state[9] = '９番目テスト';
+    }
+  }
+
+  // タグ表示
+  Row _rowTagList(WidgetRef ref, List<int> tags) {
+    final tagList = ref.watch(tagListProvider);
+    List<Widget> _tags = [];
+    for (int i = 0; i < tags.length; i++) {
+      if (!tagList.containsKey(tags[i])) continue;
+      _tags = [
+        ..._tags,
+        Container(
+          padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey, width: 1.0),
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Text(
+            key: key,
+            tagList[tags[i]].toString(),
+            style: const TextStyle(color: Colors.blueGrey),
+          ),
+        ),
+      ];
+      if ((tags.length - 1) != i) _tags = [..._tags, SizedBox(width: 8.0)];
+    }
+
+    return Row(children: _tags);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TagListNotifier tagListNotifier = ref.read(tagListProvider.notifier);
     MonitorListNotifier monitorListNotifier =
-        ref.read(MonitorListProvider.notifier);
+        ref.read(monitorListProvider.notifier);
+    _getTagList(ref);
 
     return Scaffold(
       appBar: NavigationAppBar(
@@ -57,12 +113,12 @@ class Monitors extends ConsumerWidget {
               org_id: 1,
               flag: 2,
               url: 'https://hawwa.failsafe.jp',
-              tags: [1, 2, 3],
+              tags: [2, 5, 9],
               remarks: '備考テキスト',
               checked: false,
             ),
           );
-          logger.d(ref.watch(MonitorListProvider));
+          // logger.d(ref.watch(MonitorListProvider));
         },
       ),
       body: SafeArea(
@@ -76,7 +132,7 @@ class Monitors extends ConsumerWidget {
 
             Expanded(
               child: ListView.builder(
-                itemCount: ref.watch(MonitorListProvider).length,
+                itemCount: ref.watch(monitorListProvider).length,
                 itemBuilder: (ctx, idx) => CardContainer(
                     child: Column(children: [
                   Row(
@@ -89,32 +145,32 @@ class Monitors extends ConsumerWidget {
                             scale: 2.0,
                             child: Checkbox(
                               value:
-                                  ref.watch(MonitorListProvider)[idx].checked,
+                                  ref.watch(monitorListProvider)[idx].checked,
                               activeColor: Colors.blue,
                               side: const BorderSide(width: 0.5),
                               onChanged: (bool? value) => monitorListNotifier
                                   .change(idx, 'checked', value),
                             ),
                           ),
-                          SizedBox(width: 8.0),
+                          const SizedBox(width: 8.0),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 key: key,
-                                ref.watch(MonitorListProvider)[idx].url,
+                                ref.watch(monitorListProvider)[idx].url,
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 20.0,
                                 ),
                               ), // URL
                               if (ref
-                                  .watch(MonitorListProvider)[idx]
+                                  .watch(monitorListProvider)[idx]
                                   .remarks
                                   .isNotEmpty)
                                 Text(
                                   key: key,
-                                  ref.watch(MonitorListProvider)[idx].remarks,
+                                  ref.watch(monitorListProvider)[idx].remarks,
                                   style: const TextStyle(color: Colors.grey), //
                                 ), //備考
                             ],
@@ -148,49 +204,16 @@ class Monitors extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 12.0),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  top: 2, bottom: 2, left: 8, right: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Text(
-                                key: key,
-                                'タグ１',
-                                style: const TextStyle(color: Colors.blueGrey),
-                              ),
-                            ),
-                            SizedBox(width: 8.0),
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  top: 2, bottom: 2, left: 8, right: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: Text(
-                                key: key,
-                                'タグ２',
-                                style: const TextStyle(color: Colors.blueGrey),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 16.0),
+                        _rowTagList(
+                            ref, ref.watch(monitorListProvider)[idx].tags),
+                        const SizedBox(height: 16.0),
                         Row(
                           children: [
                             const Text(
                               'コード',
-                              style: const TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey),
                             ),
-                            SizedBox(width: 16.0),
+                            const SizedBox(width: 16.0),
                             Expanded(
                               child: Container(
                                 padding: const EdgeInsets.only(
@@ -212,7 +235,7 @@ class Monitors extends ConsumerWidget {
                                     Container(
                                       padding: const EdgeInsets.only(
                                           top: 2, bottom: 2, left: 8, right: 8),
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         color: Colors.white,
                                       ),
                                       child: const Row(
@@ -220,7 +243,7 @@ class Monitors extends ConsumerWidget {
                                           Text('エラー  '),
                                           Text(
                                             '3',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                                 color: Colors.red,
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
@@ -235,12 +258,12 @@ class Monitors extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 12.0),
+                        const SizedBox(height: 12.0),
                         const Row(
                           children: [
-                            const Text(
+                            Text(
                               '証明書',
-                              style: const TextStyle(color: Colors.grey),
+                              style: TextStyle(color: Colors.grey),
                             ),
                             SizedBox(width: 16.0),
                             Column(
@@ -248,7 +271,7 @@ class Monitors extends ConsumerWidget {
                               children: [
                                 Text(
                                   'US - Lets Encript R3',
-                                  style: const TextStyle(color: Colors.grey),
+                                  style: TextStyle(color: Colors.grey),
                                 ),
                                 Row(
                                   children: [
