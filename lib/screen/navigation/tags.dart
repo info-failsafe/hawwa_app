@@ -12,7 +12,7 @@ import 'package:hawwa_app/screen/drawers/header.dart';
 import 'package:hawwa_app/components/buttons/edit.dart';
 import 'package:hawwa_app/components/buttons/remove.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
-import 'package:hawwa_app/components/views/paging.dart';
+import 'package:hawwa_app/components/views/controller.dart';
 import 'package:hawwa_app/components/views/refine.dart';
 import 'package:hawwa_app/components/appbars/navigation.dart';
 

@@ -6,9 +6,12 @@ import 'package:hawwa_app/components/appbars/navigation.dart';
 import 'package:hawwa_app/constants.dart';
 import 'package:hawwa_app/freezed/monitor.dart';
 import 'package:hawwa_app/components/textfields/filter.dart';
-import 'package:hawwa_app/components/views/paging.dart';
+import 'package:hawwa_app/components/views/controller.dart';
 import 'package:hawwa_app/components/views/refine.dart';
 import 'package:hawwa_app/components/containers/card.dart';
+import 'package:hawwa_app/screen/drawers/header.dart';
+import 'package:hawwa_app/screen/dialog/remove.dart';
+import 'package:hawwa_app/components/views/update.dart';
 
 final tagListProvider = StateProvider<Map<int, String>>((ref) => {});
 final monitorListProvider =
@@ -83,7 +86,8 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
           ),
         ),
       ];
-      if ((tags.length - 1) != i) _tags = [..._tags, SizedBox(width: 8.0)];
+      if ((tags.length - 1) != i)
+        _tags = [..._tags, const SizedBox(width: 8.0)];
     }
 
     return Row(children: _tags);
@@ -113,6 +117,7 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
           // logger.d(ref.watch(MonitorListProvider));
         },
       ),
+      endDrawer: const HeaderDrawer(),
       body: SafeArea(
         child: Column(
           children: [
@@ -131,76 +136,99 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
                     mainAxisAlignment:
                         MainAxisAlignment.spaceBetween, // これで両端に寄せる
                     children: [
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 2.0,
-                            child: Checkbox(
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Checkbox(
                               value:
                                   ref.watch(monitorListProvider)[idx].checked,
                               activeColor: Colors.blue,
-                              side: const BorderSide(width: 0.5),
                               onChanged: (bool? value) => monitorListNotifier
                                   .change(idx, 'checked', value),
                             ),
-                          ),
-                          const SizedBox(width: 8.0),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                key: key,
-                                ref.watch(monitorListProvider)[idx].url,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20.0,
-                                ),
-                              ), // URL
-                              if (ref
-                                  .watch(monitorListProvider)[idx]
-                                  .remarks
-                                  .isNotEmpty)
+                            const SizedBox(width: 8.0),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
                                   key: key,
-                                  ref.watch(monitorListProvider)[idx].remarks,
-                                  style: const TextStyle(color: Colors.grey), //
-                                ), //備考
-                            ],
-                          ),
-                        ],
+                                  ref.watch(monitorListProvider)[idx].url,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                  ),
+                                ), // URL
+                                if (ref
+                                    .watch(monitorListProvider)[idx]
+                                    .remarks
+                                    .isNotEmpty)
+                                  Text(
+                                    key: key,
+                                    ref.watch(monitorListProvider)[idx].remarks,
+                                    style:
+                                        const TextStyle(color: Colors.grey), //
+                                  ), //備考
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      // TextButton(
-                      //   style: ButtonStyle(
-                      //       foregroundColor:
-                      //           WidgetStateProperty.all(Colors.blue)),
-                      //   onPressed: () => () {},
-                      //   child: const Text('編集'),
-                      // ),
                       PopupMenuButton<String>(
-                          onSelected: (String value) {
-                            print('object');
-                          },
-                          child: const Text(
-                            '編集',
-                            style: TextStyle(color: Colors.blue),
-                          ),
-                          // icon: Icon(Icons.more_vert), // メニューアイコンの設定
-                          itemBuilder: (BuildContext context) {
-                            return <PopupMenuEntry<String>>[
-                              const PopupMenuItem<String>(
-                                value: 'item',
-                                child: Text('アイテム1'),
+                        onSelected: (String value) {
+                          if (value == 'item1') {
+                            // 削除ボタン
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  const RemoveDialog(id: 1),
+                            );
+                          } else if (value == 'item2') {
+                            // タグ管理ボタン
+                          } else if (value == 'item3') {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  const UpdateView(
+                                id: 2,
+                                column: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  // mainAxisSize: MainAxisSize.min,
+                                  // mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(height: 24.0),
+                                  ],
+                                ),
                               ),
-                              const PopupMenuItem<String>(
-                                value: 'item',
-                                child: Text('アイテム2'),
-                              ),
-                              const PopupMenuItem<String>(
-                                value: 'item',
-                                child: Text('アイテム3'),
-                              ),
-                            ];
-                          }),
+                            );
+                          } else if (value == 'item4') {}
+                        },
+                        child: const Text(
+                          '編集',
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                        // icon: Icon(Icons.more_vert), // メニューアイコンの設定
+                        itemBuilder: (BuildContext context) {
+                          return <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'item1',
+                              child: Text('削除する'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'item2',
+                              child: Text('タグを管理'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'item3',
+                              child: Text('備考を編集'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'item4',
+                              child: Text('送信先変更'),
+                            ),
+                          ];
+                        },
+                      ),
+                      const SizedBox(width: 8.0),
                     ],
                   ),
                   Container(

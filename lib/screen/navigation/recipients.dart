@@ -11,6 +11,7 @@ import 'package:hawwa_app/components/appbars/navigation.dart';
 import 'package:hawwa_app/components/buttons/remove.dart';
 import 'package:hawwa_app/components/buttons/edit.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
+import 'package:hawwa_app/screen/drawers/header.dart';
 
 final recipientListProvider =
     StateNotifierProvider<RecipientListNotifier, List<Recipient>>(
@@ -58,6 +59,7 @@ class Recipients extends ConsumerWidget {
                 limited: 200,
                 usage: 2));
           }),
+      endDrawer: const HeaderDrawer(),
       body: SafeArea(
         child: Column(
           children: [

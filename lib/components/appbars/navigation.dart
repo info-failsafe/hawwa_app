@@ -14,13 +14,25 @@ class NavigationAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
-      title: Text(text),
+      title: Text(
+        text,
+        style: const TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
       automaticallyImplyLeading: false,
       actions: [
-        IconButton(icon: const Icon(Icons.add), onPressed: onPressed),
+        IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: onPressed),
         Builder(
             builder: (context) => IconButton(
-                icon: const Icon(Icons.menu),
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                ),
                 onPressed: () => Scaffold.of(context).openEndDrawer())),
       ],
     );

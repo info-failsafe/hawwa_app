@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:hawwa_app/constants.dart';
 import 'package:hawwa_app/screen/navigation/tags.dart';
 import 'package:hawwa_app/screen/navigation/monitors.dart';
 import 'package:hawwa_app/screen/navigation/recipients.dart';

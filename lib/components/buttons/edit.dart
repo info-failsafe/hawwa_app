@@ -26,16 +26,6 @@ class EditButton extends ConsumerWidget {
               context: context,
               builder: (BuildContext context) =>
                   UpdateView(id: 2, column: column)),
-          // onPressed: () => showDialog(
-          //     //編集タップ時のダイアログ
-          //     context: context,
-          //     builder: (BuildContext context) => Dialog.fullscreen(
-          //           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          //           // child: column,
-          //           child: Column(
-          //             children: [column],
-          //           ),
-          //         )),
           child: const Text('編集'),
         ),
       ],

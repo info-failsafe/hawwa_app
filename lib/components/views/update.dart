@@ -14,16 +14,19 @@ class UpdateView extends ConsumerWidget {
       child: Column(
         children: [
           Expanded(
-              child: Column(
-            children: [
-              column,
-              CustomTextField(
-                labelText: '備考',
-                hintText: '説明文などを入力',
-                obscureText: false,
-                onChanged: (text) {},
-              ),
-            ],
+              child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min, //上下中央揃え
+              children: [
+                column,
+                CustomTextField(
+                  labelText: '備考',
+                  hintText: '説明文などを入力',
+                  obscureText: false,
+                  onChanged: (text) {},
+                ),
+              ],
+            ),
           )),
           Padding(
             padding: const EdgeInsets.all(0.0),
