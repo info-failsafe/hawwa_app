@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:lottie/lottie.dart';
 import 'package:dio/dio.dart';
-import 'package:logger/logger.dart';
 
-// import 'package:hawwa_app/constants.dart';
+import 'package:hawwa_app/constants.dart';
 import 'package:hawwa_app/screen/navigation.dart';
 import 'package:hawwa_app/components/logo.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/components/buttons/gradient.dart';
 
-final logger = Logger();
-final dio = Dio();
 final emailProvider = StateProvider((ref) => '');
 final passwordlProvider = StateProvider((ref) => '');
 final buttonProvider = StateProvider((ref) => true);
@@ -68,7 +64,8 @@ class LogIn extends ConsumerWidget {
                       'email': ref.watch(emailProvider.notifier),
                       'password': ref.watch(passwordlProvider.notifier),
                     });
-                    dio.options.validateStatus = (status) => status! < 400;
+                    Constants.dio.options.validateStatus =
+                        (status) => status! < 400;
                     // response = await dio.post('${Constants.apiDomain}/members/login/',
                     //     data: data);
                     // var status = response.statusCode; // 302 ならログイン成功
