@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hawwa_app/components/appbars/navigation.dart';
 
 import 'package:hawwa_app/constants.dart';
-import 'package:hawwa_app/providers.dart';
-import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/freezed/monitor.dart';
-import 'package:hawwa_app/freezed/tag.dart';
 import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/components/views/paging.dart';
 import 'package:hawwa_app/components/views/refine.dart';
-// import 'package:hawwa_app/components/appbars/navigation.dart';
-// import 'package:hawwa_app/components/buttons/remove.dart';
-import 'package:hawwa_app/components/buttons/edit.dart';
-// import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/components/containers/card.dart';
-import 'package:hawwa_app/screen/navigation/tags.dart';
 
 final tagListProvider = StateProvider<Map<int, String>>((ref) => {});
 final monitorListProvider =
