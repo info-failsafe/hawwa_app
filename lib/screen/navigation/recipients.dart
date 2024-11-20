@@ -5,7 +5,7 @@ import 'package:hawwa_app/components/containers/card.dart';
 import 'package:hawwa_app/freezed/recipient.dart';
 
 import 'package:hawwa_app/components/textfields/filter.dart';
-import 'package:hawwa_app/components/views/paging.dart';
+import 'package:hawwa_app/components/views/controller.dart';
 import 'package:hawwa_app/components/views/refine.dart';
 import 'package:hawwa_app/components/appbars/navigation.dart';
 import 'package:hawwa_app/components/buttons/remove.dart';
@@ -67,7 +67,7 @@ class Recipients extends ConsumerWidget {
             FilterTextField(onChanged: (text) {}),
             const SizedBox(height: 8),
             const RefineButton(), // 条件で絞り込んで表示
-            const PagingArea(), // 全て選択
+            const ControllerView(), // 全て選択
 
             Expanded(
                 child: ListView.builder(

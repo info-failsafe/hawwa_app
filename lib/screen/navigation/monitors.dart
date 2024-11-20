@@ -12,6 +12,7 @@ import 'package:hawwa_app/components/containers/card.dart';
 import 'package:hawwa_app/screen/drawers/header.dart';
 import 'package:hawwa_app/screen/dialog/remove.dart';
 import 'package:hawwa_app/components/views/update.dart';
+import 'package:hawwa_app/components/views/detail.dart';
 
 final tagListProvider = StateProvider<Map<int, String>>((ref) => {});
 final monitorListProvider =
@@ -125,222 +126,252 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
             FilterTextField(onChanged: (text) {}),
             const SizedBox(height: 8),
             const RefineButton(), // 条件で絞り込んで表示
-            const PagingArea(), // 全て選択
+            const ControllerView(), // 全て選択
 
             Expanded(
               child: ListView.builder(
                 itemCount: ref.watch(monitorListProvider).length,
                 itemBuilder: (ctx, idx) => CardContainer(
-                    child: Column(children: [
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween, // これで両端に寄せる
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: [
-                            Checkbox(
-                              value:
-                                  ref.watch(monitorListProvider)[idx].checked,
-                              activeColor: Colors.blue,
-                              onChanged: (bool? value) => monitorListNotifier
-                                  .change(idx, 'checked', value),
-                            ),
-                            const SizedBox(width: 8.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  key: key,
-                                  ref.watch(monitorListProvider)[idx].url,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.0,
-                                  ),
-                                ), // URL
-                                if (ref
-                                    .watch(monitorListProvider)[idx]
-                                    .remarks
-                                    .isNotEmpty)
-                                  Text(
-                                    key: key,
-                                    ref.watch(monitorListProvider)[idx].remarks,
-                                    style:
-                                        const TextStyle(color: Colors.grey), //
-                                  ), //備考
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      PopupMenuButton<String>(
-                        onSelected: (String value) {
-                          if (value == 'item1') {
-                            // 削除ボタン
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  const RemoveDialog(id: 1),
-                            );
-                          } else if (value == 'item2') {
-                            // タグ管理ボタン
-                          } else if (value == 'item3') {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  const UpdateView(
-                                id: 2,
-                                column: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  // mainAxisSize: MainAxisSize.min,
-                                  // mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(height: 24.0),
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else if (value == 'item4') {}
-                        },
-                        child: const Text(
-                          '編集',
-                          style: TextStyle(color: Colors.blue),
-                        ),
-                        // icon: Icon(Icons.more_vert), // メニューアイコンの設定
-                        itemBuilder: (BuildContext context) {
-                          return <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'item1',
-                              child: Text('削除する'),
-                            ),
-                            const PopupMenuItem<String>(
-                              value: 'item2',
-                              child: Text('タグを管理'),
-                            ),
-                            const PopupMenuItem<String>(
-                              value: 'item3',
-                              child: Text('備考を編集'),
-                            ),
-                            const PopupMenuItem<String>(
-                              value: 'item4',
-                              child: Text('送信先変更'),
-                            ),
-                          ];
-                        },
-                      ),
-                      const SizedBox(width: 8.0),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(
-                        top: 0.0, bottom: 8.0, left: 8.0, right: 8.0),
-                    width: double.infinity,
+                  child: GestureDetector(
+                    onTap: () {
+                      // 詳細ダイアログを表示
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            const DetailView(id: 1),
+                      );
+                    },
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 12.0),
-                        _rowTagList(
-                            ref, ref.watch(monitorListProvider)[idx].tags),
-                        const SizedBox(height: 16.0),
                         Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween, // これで両端に寄せる
                           children: [
-                            const Text(
-                              'コード',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            const SizedBox(width: 16.0),
                             Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    top: 6, bottom: 6, left: 8, right: 8),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColorLight,
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      key: key,
-                                      '200  正常',
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 18.0),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.only(
-                                          top: 2, bottom: 2, left: 8, right: 8),
-                                      decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                      ),
-                                      child: const Row(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: ref
+                                        .watch(monitorListProvider)[idx]
+                                        .checked,
+                                    activeColor: Colors.blue,
+                                    onChanged: (bool? value) =>
+                                        monitorListNotifier.change(
+                                            idx, 'checked', value),
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        key: key,
+                                        ref.watch(monitorListProvider)[idx].url,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20.0,
+                                        ),
+                                      ), // URL
+                                      if (ref
+                                          .watch(monitorListProvider)[idx]
+                                          .remarks
+                                          .isNotEmpty)
+                                        Text(
+                                          key: key,
+                                          ref
+                                              .watch(monitorListProvider)[idx]
+                                              .remarks,
+                                          style: const TextStyle(
+                                              color: Colors.grey), //
+                                        ), //備考
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            PopupMenuButton<String>(
+                              onSelected: (String value) {
+                                if (value == 'item1') {
+                                  // 削除ボタン
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        const RemoveDialog(id: 1),
+                                  );
+                                } else if (value == 'item2') {
+                                  // タグ管理ボタン
+                                } else if (value == 'item3') {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        const UpdateView(
+                                      id: 2,
+                                      column: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        // mainAxisSize: MainAxisSize.min,
+                                        // mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text('エラー  '),
-                                          Text(
-                                            '3',
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(' 回 / 週'),
+                                          SizedBox(height: 24.0),
                                         ],
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  );
+                                } else if (value == 'item4') {}
+                              },
+                              child: const Text(
+                                '編集',
+                                style: TextStyle(color: Colors.blue),
                               ),
+                              // icon: Icon(Icons.more_vert), // メニューアイコンの設定
+                              itemBuilder: (BuildContext context) {
+                                return <PopupMenuEntry<String>>[
+                                  const PopupMenuItem<String>(
+                                    value: 'item1',
+                                    child: Text('削除する'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'item2',
+                                    child: Text('タグを管理'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'item3',
+                                    child: Text('備考を編集'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'item4',
+                                    child: Text('送信先変更'),
+                                  ),
+                                ];
+                              },
                             ),
+                            const SizedBox(width: 8.0),
                           ],
                         ),
-                        const SizedBox(height: 12.0),
-                        const Row(
-                          children: [
-                            Text(
-                              '証明書',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                            SizedBox(width: 16.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'US - Lets Encript R3',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '2024.01.01 - 2024.12.31  / ',
-                                      style: TextStyle(color: Colors.black),
+                        Container(
+                          padding: const EdgeInsets.only(
+                              top: 0.0, bottom: 8.0, left: 8.0, right: 8.0),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 12.0),
+                              _rowTagList(ref,
+                                  ref.watch(monitorListProvider)[idx].tags),
+                              const SizedBox(height: 16.0),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'コード',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  const SizedBox(width: 16.0),
+                                  Expanded(
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 6, bottom: 6, left: 8, right: 8),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Theme.of(context).primaryColorLight,
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            key: key,
+                                            '200  正常',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 18.0),
+                                          ),
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                                top: 2,
+                                                bottom: 2,
+                                                left: 8,
+                                                right: 8),
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            child: const Row(
+                                              children: [
+                                                Text('エラー  '),
+                                                Text(
+                                                  '3',
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(' 回 / 週'),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      '残り',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 17),
-                                    ),
-                                    Text(
-                                      '30',
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      '日',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 17),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12.0),
+                              const Row(
+                                children: [
+                                  Text(
+                                    '証明書',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  SizedBox(width: 16.0),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'US - Lets Encript R3',
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '2024.01.01 - 2024.12.31  / ',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                          Text(
+                                            '残り',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17),
+                                          ),
+                                          Text(
+                                            '30',
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            '日',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ])),
+                ),
               ),
             ),
           ],

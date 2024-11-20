@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:hawwa_app/screen/dialog/remove.dart';
 
-class PagingArea extends ConsumerWidget {
+class ControllerView extends ConsumerWidget {
   // final int id;
 
-  const PagingArea({
+  const ControllerView({
     super.key,
     // required this.id,
   });
