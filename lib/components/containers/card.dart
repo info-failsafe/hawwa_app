@@ -14,7 +14,7 @@ class CardContainer extends StatelessWidget {
             color: Colors.grey.withOpacity(0.1), // 影の色と透明度,
             spreadRadius: 1, // 影の広がり
             blurRadius: 8, // ぼかしの半径
-            offset: Offset(0, 0), // 影の位置: 横方向のオフセット, 縦方向のオフセット
+            offset: const Offset(0, 0), // 影の位置: 横方向のオフセット, 縦方向のオフセット
           ),
         ],
       ),

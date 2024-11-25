@@ -69,11 +69,11 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
   // タグ表示
   Row _rowTagList(WidgetRef ref, List<int> tags) {
     final tagList = ref.watch(tagListProvider);
-    List<Widget> _tags = [];
+    List<Widget> tags0 = [];
     for (int i = 0; i < tags.length; i++) {
       if (!tagList.containsKey(tags[i])) continue;
-      _tags = [
-        ..._tags,
+      tags0 = [
+        ...tags0,
         Container(
           padding: const EdgeInsets.only(top: 2, bottom: 2, left: 8, right: 8),
           decoration: BoxDecoration(
@@ -88,11 +88,12 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
           ),
         ),
       ];
-      if ((tags.length - 1) != i)
-        _tags = [..._tags, const SizedBox(width: 8.0)];
+      if ((tags.length - 1) != i) {
+        tags0 = [...tags0, const SizedBox(width: 8.0)];
+      }
     }
 
-    return Row(children: _tags);
+    return Row(children: tags0);
   }
 
   @override

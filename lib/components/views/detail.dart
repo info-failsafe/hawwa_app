@@ -322,67 +322,104 @@ class DetailView extends ConsumerWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 16),
                 Expanded(
-                    child: BarChart(
-                  BarChartData(
-                    barGroups: [
-                      BarChartGroupData(
-                        x: 1,
-                        barRods: [
-                          BarChartRodData(
-                            y: 0,
-                            colors: [Colors.blue],
-                          )
-                        ],
-                      ),
-                      BarChartGroupData(
-                        x: 2,
-                        barRods: [
-                          BarChartRodData(
-                            y: 10,
-                            colors: [Colors.blue],
-                          )
-                        ],
-                      ),
-                      BarChartGroupData(
-                        x: 3,
-                        barRods: [
-                          BarChartRodData(
-                            y: 14,
-                            colors: [Colors.blue],
-                          )
-                        ],
-                      ),
-                    ],
-                    titlesData: FlTitlesData(show: true),
-                    borderData: FlBorderData(show: false),
-                    alignment: BarChartAlignment.spaceAround,
-                    gridData: FlGridData(show: false),
+                  child: LineChart(
+                    LineChartData(
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: [
+                            const FlSpot(1, 8),
+                            const FlSpot(2, 10),
+                            const FlSpot(3, 14),
+                          ],
+                          isCurved: true,
+                          color: const Color.fromRGBO(244, 67, 54, 1),
+                          dotData: FlDotData(
+                            show: true,
+                            getDotPainter: (spot, percent, bar, index) =>
+                                FlDotCirclePainter(
+                              radius: 4,
+                              color: Colors.red,
+                              strokeWidth: 2,
+                              strokeColor: Colors.redAccent,
+                            ),
+                          ),
+                          barWidth: 4,
+                          belowBarData: BarAreaData(show: false),
+                        ),
+                        LineChartBarData(
+                          spots: [
+                            const FlSpot(1, 4),
+                            const FlSpot(2, 5),
+                            const FlSpot(3, 6),
+                          ],
+                          isCurved: true,
+                          color: Colors.blue,
+                          barWidth: 4,
+                          dotData: const FlDotData(show: false),
+                          belowBarData: BarAreaData(show: false),
+                        ),
+                      ],
+                      titlesData: const FlTitlesData(show: true),
+                      borderData: FlBorderData(show: false),
+                      gridData: const FlGridData(show: false),
+                    ),
                   ),
-                )),
-                SizedBox(height: 16),
+                ),
+                const SizedBox(height: 16),
                 Expanded(
-                    child: LineChart(
-                  LineChartData(
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: [
-                          FlSpot(1, 8),
-                          FlSpot(2, 10),
-                          FlSpot(3, 14),
-                        ],
-                        isCurved: true,
-                        colors: [Colors.red],
-                        barWidth: 4,
-                        dotData: FlDotData(show: false),
-                        belowBarData: BarAreaData(show: false),
-                      )
-                    ],
-                    titlesData: FlTitlesData(show: true),
-                    borderData: FlBorderData(show: false),
-                    gridData: FlGridData(show: false),
+                  child: AspectRatio(
+                    aspectRatio: 1.5,
+                    child: Stack(
+                      children: [
+                        BarChart(
+                          BarChartData(
+                            barGroups: [
+                              BarChartGroupData(
+                                x: 1,
+                                barRods: [
+                                  BarChartRodData(
+                                      toY: 8, color: Colors.lightBlueAccent),
+                                  BarChartRodData(
+                                      toY: 10, color: Colors.blueAccent),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        LineChart(
+                          LineChartData(
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: [
+                                  const FlSpot(1, 12),
+                                  const FlSpot(2, 14),
+                                  const FlSpot(3, 10),
+                                ],
+                                isCurved: true,
+                                color: Colors.red,
+                                barWidth: 4,
+                                belowBarData: BarAreaData(show: false),
+                              ),
+                              LineChartBarData(
+                                spots: [
+                                  const FlSpot(1, 2),
+                                  const FlSpot(2, 3),
+                                  const FlSpot(3, 4),
+                                ],
+                                isCurved: true,
+                                color: Colors.blue,
+                                barWidth: 4,
+                                belowBarData: BarAreaData(show: false),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                )),
+                ),
               ],
             ),
           ),
