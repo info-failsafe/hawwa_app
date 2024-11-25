@@ -13,6 +13,7 @@ import 'package:hawwa_app/components/buttons/edit.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/screen/drawers/header.dart';
 
+final filterTextProvider = StateProvider<String>((ref) => '');
 final recipientListProvider =
     StateNotifierProvider<RecipientListNotifier, List<Recipient>>(
         (ref) => RecipientListNotifier());
@@ -64,7 +65,12 @@ class Recipients extends ConsumerWidget {
         child: Column(
           children: [
             SizedBox(width: MediaQuery.of(context).size.width, height: 16),
-            FilterTextField(onChanged: (text) {}),
+            FilterTextField(
+              onChanged: (text) =>
+                  ref.read(filterTextProvider.notifier).state = text,
+              onPressed: () => ref.read(filterTextProvider.notifier).state = '',
+              text: ref.watch(filterTextProvider),
+            ),
             const SizedBox(height: 8),
             const RefineButton(), // 条件で絞り込んで表示
             const ControllerView(), // 全て選択

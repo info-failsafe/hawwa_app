@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hawwa_app/components/containers/card.dart';
-import 'package:logger/logger.dart';
 
 import 'package:hawwa_app/freezed/tag.dart';
 
@@ -16,9 +15,7 @@ import 'package:hawwa_app/components/views/controller.dart';
 import 'package:hawwa_app/components/views/refine.dart';
 import 'package:hawwa_app/components/appbars/navigation.dart';
 
-final logger = Logger();
-
-// final filterButtonProvider = StateProvider((ref) => false);
+final filterTextProvider = StateProvider<String>((ref) => '');
 final tagListProvider = StateNotifierProvider<TagListNotifier, List<Tag>>(
     (ref) => TagListNotifier());
 
@@ -69,7 +66,12 @@ class Tags extends ConsumerWidget {
       endDrawer: const HeaderDrawer(),
       body: Column(children: [
         SizedBox(width: MediaQuery.of(context).size.width, height: 16),
-        FilterTextField(onChanged: (text) {}),
+        FilterTextField(
+          onChanged: (text) =>
+              ref.read(filterTextProvider.notifier).state = text,
+          onPressed: () => ref.read(filterTextProvider.notifier).state = '',
+          text: ref.watch(filterTextProvider),
+        ),
         const SizedBox(height: 8),
         const RefineButton(), // 条件で絞り込んで表示
         const ControllerView(), // 全て選択
