@@ -14,6 +14,7 @@ import 'package:hawwa_app/screen/dialog/remove.dart';
 import 'package:hawwa_app/components/views/update.dart';
 import 'package:hawwa_app/components/views/detail.dart';
 
+final filterTextProvider = StateProvider<String>((ref) => '');
 final tagListProvider = StateProvider<Map<int, String>>((ref) => {});
 final monitorListProvider =
     StateNotifierProvider<MonitorListNotifier, List<Monitor>>(
@@ -123,7 +124,12 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
         child: Column(
           children: [
             SizedBox(width: MediaQuery.of(context).size.width, height: 16),
-            FilterTextField(onChanged: (text) {}),
+            FilterTextField(
+              onChanged: (text) =>
+                  ref.read(filterTextProvider.notifier).state = text,
+              onPressed: () => ref.read(filterTextProvider.notifier).state = '',
+              text: ref.watch(filterTextProvider),
+            ),
             const SizedBox(height: 8),
             const RefineButton(), // 条件で絞り込んで表示
             const ControllerView(), // 全て選択
