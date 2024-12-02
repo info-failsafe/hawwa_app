@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hawwa_app/screen/navigation/tags.dart';
 
 class RemoveDialog extends ConsumerWidget {
   final int id;
@@ -13,7 +14,7 @@ class RemoveDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: const Text("削除しますか？"),
-      content: const Text("削除したコンテンツはゴミ箱に移動します。"),
+      content: Text("削除した$idコンテンツはゴミ箱に移動します。"),
       actions: <Widget>[
         TextButton(
           style: ButtonStyle(
@@ -26,6 +27,7 @@ class RemoveDialog extends ConsumerWidget {
               ButtonStyle(foregroundColor: WidgetStateProperty.all(Colors.red)),
           child: const Text('削除'),
           onPressed: () {
+            ref.read(tagListProvider.notifier).remove(id);
             Navigator.of(context).pop();
           },
         ),

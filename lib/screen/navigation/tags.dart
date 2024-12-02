@@ -26,6 +26,10 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
     state = [...state, tag];
   }
 
+  void remove(int index) {
+    state.removeAt(index);
+  }
+
   void change(index, column, value) {
     switch (column) {
       case 'checked':
@@ -76,74 +80,82 @@ class Tags extends ConsumerWidget {
         const RefineButton(), // 条件で絞り込んで表示
         const ControllerView(), // 全て選択
 
-        Expanded(
-            child: ListView.builder(
-          itemCount: ref.watch(tagListProvider).length,
-          itemBuilder: (ctx, idx) => CardContainer(
-              child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween, // これで両端に寄せる
-              children: [
-                Checkbox(
-                  value: ref.watch(tagListProvider)[idx].checked,
-                  activeColor: Colors.blue,
-                  onChanged: (bool? value) =>
-                      tagListNotifier.change(idx, 'checked', value),
-                ),
-                Row(
-                  // 中央寄せ
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    EditButton(
-                      id: 1,
-                      // 編集タップ時のダイアログ
-                      column: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        // mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.center,
+        Expanded(child: Consumer(builder: (context, watch, child) {
+          return ListView.builder(
+            itemCount: ref.watch(tagListProvider).length,
+            itemBuilder: (ctx, idx) => CardContainer(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween, // これで両端に寄せる
+                    children: [
+                      Checkbox(
+                        value: ref.watch(tagListProvider)[idx].checked,
+                        activeColor: Colors.blue,
+                        onChanged: (bool? value) =>
+                            tagListNotifier.change(idx, 'checked', value),
+                      ),
+                      Row(
+                        // 中央寄せ
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const SizedBox(height: 40),
-                          CustomTextField(
-                            labelText: 'タグ名',
-                            hintText: '#タグ',
-                            obscureText: false,
-                            onChanged: (text) {},
+                          EditButton(
+                            id: 1,
+                            // 編集タップ時のダイアログ
+                            column: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              // mainAxisSize: MainAxisSize.min,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 40),
+                                CustomTextField(
+                                  labelText: 'タグ名',
+                                  hintText: '#タグ',
+                                  obscureText: false,
+                                  onChanged: (text) {},
+                                ),
+                                const SizedBox(height: 24.0),
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 24.0),
+                          const SizedBox(width: 8.0),
+                          RemoveButton(
+                            id: idx,
+                          ), // 削除ボタン
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    const RemoveButton(id: 1),
-                  ],
-                ),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                  top: 0.0, bottom: 8.0, left: 16.0, right: 16.0),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    key: key,
-                    ref.watch(tagListProvider)[idx].name,
-                    style: const TextStyle(color: Colors.black, fontSize: 17),
-                  ), //タグ名称
-                  const SizedBox(height: 8.0),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        top: 0.0, bottom: 8.0, left: 16.0, right: 16.0),
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          key: key,
+                          ref.watch(tagListProvider)[idx].name,
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 17),
+                        ), //タグ名称
+                        const SizedBox(height: 8.0),
 
-                  if (ref.watch(tagListProvider)[idx].remarks.isNotEmpty)
-                    Text(
-                      key: key,
-                      ref.watch(tagListProvider)[idx].remarks,
-                      style: const TextStyle(color: Colors.grey),
-                    ), //備考
+                        if (ref.watch(tagListProvider)[idx].remarks.isNotEmpty)
+                          Text(
+                            key: key,
+                            ref.watch(tagListProvider)[idx].remarks,
+                            style: const TextStyle(color: Colors.grey),
+                          ), //備考
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ])),
-        )),
+          );
+        })),
       ]),
     );
   }
