@@ -49,17 +49,18 @@ class Recipients extends ConsumerWidget {
 
     return Scaffold(
       appBar: NavigationAppBar(
-          text: '受信設定',
-          onPressed: () {
-            recipientListNotifier.add(const Recipient(
-                id: 1,
-                org_id: 1,
-                flag: 2,
-                name: 'sample@co.jp',
-                checked: false,
-                limited: 200,
-                usage: 2));
-          }),
+        text: '受信設定',
+        onPressed: () {
+          recipientListNotifier.add(const Recipient(
+              id: 1,
+              org_id: 1,
+              flag: 2,
+              name: 'sample@co.jp',
+              checked: false,
+              limited: 200,
+              usage: 2));
+        },
+      ),
       endDrawer: const HeaderDrawer(),
       body: SafeArea(
         child: Column(

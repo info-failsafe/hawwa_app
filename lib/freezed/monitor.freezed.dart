@@ -20,6 +20,7 @@ mixin _$Monitor {
   int get org_id => throw _privateConstructorUsedError;
   int get flag => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
+  int get recipients_id => throw _privateConstructorUsedError;
   List<int> get tags => throw _privateConstructorUsedError;
   String get remarks => throw _privateConstructorUsedError;
   bool get checked => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ abstract class $MonitorCopyWith<$Res> {
       int org_id,
       int flag,
       String url,
+      int recipients_id,
       List<int> tags,
       String remarks,
       bool checked});
@@ -64,6 +66,7 @@ class _$MonitorCopyWithImpl<$Res, $Val extends Monitor>
     Object? org_id = null,
     Object? flag = null,
     Object? url = null,
+    Object? recipients_id = null,
     Object? tags = null,
     Object? remarks = null,
     Object? checked = null,
@@ -85,6 +88,10 @@ class _$MonitorCopyWithImpl<$Res, $Val extends Monitor>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      recipients_id: null == recipients_id
+          ? _value.recipients_id
+          : recipients_id // ignore: cast_nullable_to_non_nullable
+              as int,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -113,6 +120,7 @@ abstract class _$$MonitorImplCopyWith<$Res> implements $MonitorCopyWith<$Res> {
       int org_id,
       int flag,
       String url,
+      int recipients_id,
       List<int> tags,
       String remarks,
       bool checked});
@@ -135,6 +143,7 @@ class __$$MonitorImplCopyWithImpl<$Res>
     Object? org_id = null,
     Object? flag = null,
     Object? url = null,
+    Object? recipients_id = null,
     Object? tags = null,
     Object? remarks = null,
     Object? checked = null,
@@ -156,6 +165,10 @@ class __$$MonitorImplCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      recipients_id: null == recipients_id
+          ? _value.recipients_id
+          : recipients_id // ignore: cast_nullable_to_non_nullable
+              as int,
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -180,6 +193,7 @@ class _$MonitorImpl implements _Monitor {
       required this.org_id,
       required this.flag,
       required this.url,
+      required this.recipients_id,
       required final List<int> tags,
       required this.remarks,
       required this.checked})
@@ -193,6 +207,8 @@ class _$MonitorImpl implements _Monitor {
   final int flag;
   @override
   final String url;
+  @override
+  final int recipients_id;
   final List<int> _tags;
   @override
   List<int> get tags {
@@ -208,7 +224,7 @@ class _$MonitorImpl implements _Monitor {
 
   @override
   String toString() {
-    return 'Monitor(id: $id, org_id: $org_id, flag: $flag, url: $url, tags: $tags, remarks: $remarks, checked: $checked)';
+    return 'Monitor(id: $id, org_id: $org_id, flag: $flag, url: $url, recipients_id: $recipients_id, tags: $tags, remarks: $remarks, checked: $checked)';
   }
 
   @override
@@ -220,14 +236,24 @@ class _$MonitorImpl implements _Monitor {
             (identical(other.org_id, org_id) || other.org_id == org_id) &&
             (identical(other.flag, flag) || other.flag == flag) &&
             (identical(other.url, url) || other.url == url) &&
+            (identical(other.recipients_id, recipients_id) ||
+                other.recipients_id == recipients_id) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             (identical(other.remarks, remarks) || other.remarks == remarks) &&
             (identical(other.checked, checked) || other.checked == checked));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, org_id, flag, url,
-      const DeepCollectionEquality().hash(_tags), remarks, checked);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      org_id,
+      flag,
+      url,
+      recipients_id,
+      const DeepCollectionEquality().hash(_tags),
+      remarks,
+      checked);
 
   /// Create a copy of Monitor
   /// with the given fields replaced by the non-null parameter values.
@@ -244,6 +270,7 @@ abstract class _Monitor implements Monitor {
       required final int org_id,
       required final int flag,
       required final String url,
+      required final int recipients_id,
       required final List<int> tags,
       required final String remarks,
       required final bool checked}) = _$MonitorImpl;
@@ -256,6 +283,8 @@ abstract class _Monitor implements Monitor {
   int get flag;
   @override
   String get url;
+  @override
+  int get recipients_id;
   @override
   List<int> get tags;
   @override

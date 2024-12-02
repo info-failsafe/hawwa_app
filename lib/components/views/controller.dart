@@ -22,25 +22,23 @@ class ControllerView extends ConsumerWidget {
           // mainAxisAlignment: MainAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // これでこれで両端に寄せる
           children: [
-            Container(
-              child: Row(
-                children: [
-                  TextButton.icon(
-                    style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(Colors.blue)),
-                    onPressed: () {},
-                    label: const Text('全て選択'),
-                    icon: const Icon(Icons.check_box),
-                  ),
-                  TextButton.icon(
-                    style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(Colors.blue)),
-                    onPressed: () {},
-                    label: const Text('全て解除'),
-                    icon: const Icon(Icons.check_box_outline_blank),
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                TextButton.icon(
+                  style: ButtonStyle(
+                      foregroundColor: WidgetStateProperty.all(Colors.blue)),
+                  onPressed: () {},
+                  label: const Text('全て選択'),
+                  icon: const Icon(Icons.check_box),
+                ),
+                TextButton.icon(
+                  style: ButtonStyle(
+                      foregroundColor: WidgetStateProperty.all(Colors.blue)),
+                  onPressed: () {},
+                  label: const Text('全て解除'),
+                  icon: const Icon(Icons.check_box_outline_blank),
+                ),
+              ],
             ),
             TextButton.icon(
               style: ButtonStyle(

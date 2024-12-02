@@ -90,34 +90,32 @@ class Tags extends ConsumerWidget {
                   onChanged: (bool? value) =>
                       tagListNotifier.change(idx, 'checked', value),
                 ),
-                Container(
-                  child: Row(
-                    // 中央寄せ
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      EditButton(
-                        id: 1,
-                        // 編集タップ時のダイアログ
-                        column: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          // mainAxisSize: MainAxisSize.min,
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 40),
-                            CustomTextField(
-                              labelText: 'タグ名',
-                              hintText: '#タグ',
-                              obscureText: false,
-                              onChanged: (text) {},
-                            ),
-                            const SizedBox(height: 24.0),
-                          ],
-                        ),
+                Row(
+                  // 中央寄せ
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    EditButton(
+                      id: 1,
+                      // 編集タップ時のダイアログ
+                      column: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisSize: MainAxisSize.min,
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 40),
+                          CustomTextField(
+                            labelText: 'タグ名',
+                            hintText: '#タグ',
+                            obscureText: false,
+                            onChanged: (text) {},
+                          ),
+                          const SizedBox(height: 24.0),
+                        ],
                       ),
-                      const SizedBox(width: 8.0),
-                      const RemoveButton(id: 1),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 8.0),
+                    const RemoveButton(id: 1),
+                  ],
                 ),
               ],
             ),

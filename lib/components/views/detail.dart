@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:hawwa_app/components/containers/card.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:hawwa_app/freezed/log.dart';
+import 'package:hawwa_app/components/views/chart.dart';
+
+final logListProvider = StateNotifierProvider<LogListNotifier, List<Log>>(
+    (ref) => LogListNotifier());
+
+class LogListNotifier extends StateNotifier<List<Log>> {
+  LogListNotifier() : super([]);
+
+  void add(Log tag) {
+    state = [...state, tag];
+  }
+}
 
 class DetailView extends ConsumerWidget {
   final int id;
@@ -14,6 +27,12 @@ class DetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // LogListNotifier logListNotifier = ref.read(logListProvider.notifier);
+    // logListNotifier logListNotifier = ref.read(logListProvider.notifier);
+
+    // TagListNotifier tagListNotifier = ref.read(tagListProvider.notifier);
+    LogListNotifier logListNotifier = ref.read(logListProvider.notifier);
+
     return Dialog.fullscreen(
       child: Column(
         children: [
@@ -30,396 +49,367 @@ class DetailView extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                CardContainer(
-                  child: Column(
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsetsDirectional.all(8.0),
+                  color: Theme.of(context).primaryColorLight,
+                  child: Row(
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            color: Theme.of(context).primaryColor,
-                            padding: const EdgeInsets.only(
-                                top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
-                            child: const Text(
-                              'NEW',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.add,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {
+                          logListNotifier.add(
+                            Log(
+                              id: 2,
+                              text: {
+                                'code': '正常',
+                                'created': '2024.11.27 - 10:59',
+                                'modified': '2024.11.27 - 10:59',
+                              },
+                              code: 200,
+                              data: {
+                                'total_time': 0.343378,
+                                'header_size': 157,
+                                'connect_time': 0.032231,
+                                'request_size': 53,
+                                'namelookup_time': 0.030249,
+                                'pretransfer_time': 0.339464,
+                                'ssl_verify_request': 0,
+                                'starttransfer_time': 0.343346,
+                              },
+                              created:
+                                  DateTime.parse("2024-11-27T10:59:06+09:00"),
+                              modified:
+                                  DateTime.parse("2024-11-27T10:59:06+09:00"),
                             ),
-                          ),
-                          const SizedBox(width: 16.0),
-                          const Text(
-                            '2024.11.18 - 12:34',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
+                          );
+                          // logger.d(ref.watch(MonitorListProvider));
+                        },
                       ),
-                      const SizedBox(height: 8.0),
-                      const Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('コード',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '000',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
+                      const Spacer(), // 左側のスペースを埋めるためのウィジェット
+                      TextButton.icon(
+                        style: ButtonStyle(
+                          foregroundColor: WidgetStateProperty.all(Colors.blue),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => const ChartView(
+                              id: 2,
                             ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('エラー内容',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '未到達',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('ヘッダー',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '0',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('リクエスト',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '53',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('伝送秒',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '30.001167',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('接続確立秒',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '0.031003',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('名前解決秒',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '30.001167',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('開始伝送秒',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '0.031003',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                Text('バイト伝送秒',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    strutStyle: StrutStyle(
-                                      fontSize: 20.0,
-                                      height: 1.5,
-                                    )),
-                                SizedBox(width: 16.0),
-                                Text(
-                                  '0',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    // color: Colors.red,
-                                  ),
-                                  strutStyle: StrutStyle(
-                                    fontSize: 20.0,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        label: const Text('過去24時間のロググラフを表示'),
+                        icon: const Icon(Icons.bar_chart_sharp),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
                 Expanded(
-                  child: LineChart(
-                    LineChartData(
-                      lineBarsData: [
-                        LineChartBarData(
-                          spots: [
-                            const FlSpot(1, 8),
-                            const FlSpot(2, 10),
-                            const FlSpot(3, 14),
-                          ],
-                          isCurved: true,
-                          color: const Color.fromRGBO(244, 67, 54, 1),
-                          dotData: FlDotData(
-                            show: true,
-                            getDotPainter: (spot, percent, bar, index) =>
-                                FlDotCirclePainter(
-                              radius: 4,
-                              color: Colors.red,
-                              strokeWidth: 2,
-                              strokeColor: Colors.redAccent,
-                            ),
+                  child: ListView.builder(
+                    itemCount: ref.watch(logListProvider).length,
+                    itemBuilder: (ctx, idx) => CardContainer(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                color: Theme.of(context).primaryColor,
+                                padding: const EdgeInsets.only(
+                                    top: 2.0,
+                                    bottom: 2.0,
+                                    left: 8.0,
+                                    right: 8.0),
+                                child: const Text(
+                                  'NEW',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16.0),
+                              const Text(
+                                '2024.11.18 - 12:34',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
-                          barWidth: 4,
-                          belowBarData: BarAreaData(show: false),
-                        ),
-                        LineChartBarData(
-                          spots: [
-                            const FlSpot(1, 4),
-                            const FlSpot(2, 5),
-                            const FlSpot(3, 6),
-                          ],
-                          isCurved: true,
-                          color: Colors.blue,
-                          barWidth: 4,
-                          dotData: const FlDotData(show: false),
-                          belowBarData: BarAreaData(show: false),
-                        ),
-                      ],
-                      titlesData: const FlTitlesData(show: true),
-                      borderData: FlBorderData(show: false),
-                      gridData: const FlGridData(show: false),
+                          const SizedBox(height: 8.0),
+                          const Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('コード',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '000',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('エラー内容',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '未到達',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('ヘッダー',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '0',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('リクエスト',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '53',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('伝送秒',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '30.001167',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('接続確立秒',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '0.031003',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('名前解決秒',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '30.001167',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('開始伝送秒',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '0.031003',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Text('バイト伝送秒',
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                        strutStyle: StrutStyle(
+                                          fontSize: 20.0,
+                                          height: 1.5,
+                                        )),
+                                    SizedBox(width: 16.0),
+                                    Text(
+                                      '0',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        // color: Colors.red,
+                                      ),
+                                      strutStyle: StrutStyle(
+                                        fontSize: 20.0,
+                                        height: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 1.5,
-                    child: Stack(
-                      children: [
-                        BarChart(
-                          BarChartData(
-                            barGroups: [
-                              BarChartGroupData(
-                                x: 1,
-                                barRods: [
-                                  BarChartRodData(
-                                      toY: 8, color: Colors.lightBlueAccent),
-                                  BarChartRodData(
-                                      toY: 10, color: Colors.blueAccent),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        LineChart(
-                          LineChartData(
-                            lineBarsData: [
-                              LineChartBarData(
-                                spots: [
-                                  const FlSpot(1, 12),
-                                  const FlSpot(2, 14),
-                                  const FlSpot(3, 10),
-                                ],
-                                isCurved: true,
-                                color: Colors.red,
-                                barWidth: 4,
-                                belowBarData: BarAreaData(show: false),
-                              ),
-                              LineChartBarData(
-                                spots: [
-                                  const FlSpot(1, 2),
-                                  const FlSpot(2, 3),
-                                  const FlSpot(3, 4),
-                                ],
-                                isCurved: true,
-                                color: Colors.blue,
-                                barWidth: 4,
-                                belowBarData: BarAreaData(show: false),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

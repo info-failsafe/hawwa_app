@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:hawwa_app/components/views/update.dart';
 
-class EditButton extends ConsumerWidget {
+class EditButton extends StatelessWidget {
   final int id;
   final Column column;
 
@@ -14,7 +13,7 @@ class EditButton extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Row(
       // 中央寄せ
       mainAxisAlignment: MainAxisAlignment.end,
