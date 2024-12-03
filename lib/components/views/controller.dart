@@ -40,17 +40,17 @@ class ControllerView extends ConsumerWidget {
                 ),
               ],
             ),
-            TextButton.icon(
-              style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(Colors.grey)),
-              onPressed: () => showDialog(
-                //編集タップ時のダイアログ
-                context: context,
-                builder: (BuildContext context) => const RemoveDialog(id: 1),
-              ),
-              label: const Text('全て削除'),
-              icon: const Icon(Icons.delete),
-            ),
+            // TextButton.icon(
+            //   style: ButtonStyle(
+            //       foregroundColor: WidgetStateProperty.all(Colors.grey)),
+            //   onPressed: () => showDialog(
+            //     //編集タップ時のダイアログ
+            //     context: context,
+            //     builder: (BuildContext context) => const RemoveDialog(id: 1),
+            //   ),
+            //   label: const Text('全て削除'),
+            //   icon: const Icon(Icons.delete),
+            // ),
           ],
         ),
       ),

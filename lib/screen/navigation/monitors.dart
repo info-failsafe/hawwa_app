@@ -28,9 +28,12 @@ class MonitorListNotifier extends StateNotifier<List<Monitor>> {
     state = [...state, monitor];
   }
 
-  // void remove(int index) {
-  //   state.remove(index);
-  // }
+  void remove(int index) {
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i != index) state[i]
+    ];
+  }
 
   void change(index, column, value) {
     switch (column) {
@@ -215,7 +218,12 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          const RemoveDialog(id: 1),
+                                          // const RemoveDialog(id: 1),
+                                          RemoveDialog(
+                                        onPressed: () => ref
+                                            .read(monitorListProvider.notifier)
+                                            .remove(idx),
+                                      ), // 削除ボタン
                                     );
                                   } else if (value == 'item2') {
                                     // タグ管理ボタン

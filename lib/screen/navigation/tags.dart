@@ -27,7 +27,10 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
   }
 
   void remove(int index) {
-    state.removeAt(index);
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i != index) state[i]
+    ];
   }
 
   void change(index, column, value) {
@@ -121,8 +124,9 @@ class Tags extends ConsumerWidget {
                           ),
                           const SizedBox(width: 8.0),
                           RemoveButton(
-                            id: idx,
-                          ), // 削除ボタン
+                              onPressed: () => ref
+                                  .read(tagListProvider.notifier)
+                                  .remove(idx)), // 削除ボタン
                         ],
                       ),
                     ],
@@ -140,6 +144,12 @@ class Tags extends ConsumerWidget {
                           style: const TextStyle(
                               color: Colors.black, fontSize: 17),
                         ), //タグ名称
+                        Text(
+                          key: key,
+                          ref.watch(tagListProvider)[idx].id.toString(),
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 17),
+                        ),
                         const SizedBox(height: 8.0),
 
                         if (ref.watch(tagListProvider)[idx].remarks.isNotEmpty)

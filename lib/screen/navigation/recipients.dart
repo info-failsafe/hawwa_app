@@ -25,6 +25,13 @@ class RecipientListNotifier extends StateNotifier<List<Recipient>> {
     state = [...state, recipient];
   }
 
+  void remove(int index) {
+    state = [
+      for (int i = 0; i < state.length; i++)
+        if (i != index) state[i]
+    ];
+  }
+
   void change(index, column, value) {
     switch (column) {
       case 'checked':
@@ -127,7 +134,11 @@ class Recipients extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(width: 8.0),
-                        const RemoveButton(id: 1),
+                        // const RemoveButton(id: 1),
+                        RemoveButton(
+                            onPressed: () => ref
+                                .read(recipientListProvider.notifier)
+                                .remove(idx)),
                       ],
                     ),
                   ],
