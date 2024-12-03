@@ -45,6 +45,20 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
         break;
     }
   }
+
+  // 一括でチェックを入れるメソッド
+  void changeAll() {
+    state = [
+      for (int i = 0; i < state.length; i++) state[i].copyWith(checked: true)
+    ];
+  }
+
+  // 一括でチェックを解除するメソッド
+  void cancelAll() {
+    state = [
+      for (int i = 0; i < state.length; i++) state[i].copyWith(checked: false)
+    ];
+  }
 }
 
 class Tags extends ConsumerWidget {
@@ -67,9 +81,6 @@ class Tags extends ConsumerWidget {
                 remarks: 'ここに備考が入ります。',
                 checked: false));
           }),
-
-      // NavigationAppBar(text: 'aaaaaaaaaaa'),
-
       endDrawer: const HeaderDrawer(),
       body: Column(children: [
         SizedBox(width: MediaQuery.of(context).size.width, height: 16),
@@ -81,7 +92,23 @@ class Tags extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         const RefineButton(), // 条件で絞り込んで表示
-        const ControllerView(), // 全て選択
+        ControllerView(
+          // onPressed: () ,
+          // onPressed: () => ref.read(tagListProvider.notifier).changeAll(),
+          onPressedCancel: () {
+            ref.read(tagListProvider.notifier).cancelAll();
+          },
+          onPressedSelect: () {
+            ref.read(tagListProvider.notifier).changeAll();
+          },
+          onPressedDelete: () {
+            for (int i = ref.read(tagListProvider.notifier).state.length - 1;
+                i >= 0;
+                i--) {
+              ref.read(tagListProvider.notifier).remove(i);
+            }
+          },
+        ), // 全て選択
 
         Expanded(child: Consumer(builder: (context, watch, child) {
           return ListView.builder(

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:hawwa_app/screen/dialog/remove.dart';
 
 class ControllerView extends ConsumerWidget {
   // final int id;
+  final VoidCallback onPressedSelect;
+  final VoidCallback onPressedCancel;
+  final VoidCallback onPressedDelete;
 
   const ControllerView({
     super.key,
+    required this.onPressedSelect,
+    required this.onPressedCancel,
+    required this.onPressedDelete,
     // required this.id,
   });
 
@@ -27,30 +32,44 @@ class ControllerView extends ConsumerWidget {
                 TextButton.icon(
                   style: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Colors.blue)),
-                  onPressed: () {},
+                  // onPressed: () {},
+                  onPressed: onPressedSelect,
                   label: const Text('全て選択'),
                   icon: const Icon(Icons.check_box),
                 ),
                 TextButton.icon(
                   style: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Colors.blue)),
-                  onPressed: () {},
+                  // onPressed: () {},
+                  onPressed: onPressedCancel,
                   label: const Text('全て解除'),
                   icon: const Icon(Icons.check_box_outline_blank),
                 ),
               ],
             ),
-            // TextButton.icon(
-            //   style: ButtonStyle(
-            //       foregroundColor: WidgetStateProperty.all(Colors.grey)),
-            //   onPressed: () => showDialog(
-            //     //編集タップ時のダイアログ
-            //     context: context,
-            //     builder: (BuildContext context) => const RemoveDialog(id: 1),
-            //   ),
-            //   label: const Text('全て削除'),
-            //   icon: const Icon(Icons.delete),
-            // ),
+            TextButton.icon(
+              style: ButtonStyle(
+                  foregroundColor: WidgetStateProperty.all(Colors.grey)),
+              // onPressed: () => showDialog(
+              //   //編集タップ時のダイアログ
+              //   context: context,
+              //   // builder: (BuildContext context) => const RemoveDialog(
+              //   //    onPressed: () => ref
+              //   //                   .read(tagListProvider.notifier)
+              //   //                   .remove(idx),
+              //   // ),
+              //   ),
+              // ),
+              // onPressed: () {},
+              onPressed: () => showDialog(
+                  //編集タップ時のダイアログ
+                  context: context,
+                  builder: (BuildContext context) =>
+                      RemoveDialog(onPressed: onPressedDelete)),
+              // onPressed: onPressedDelete,
+              label: const Text('全て削除'),
+              icon: const Icon(Icons.delete),
+            ),
           ],
         ),
       ),

@@ -81,7 +81,7 @@ class Recipients extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             const RefineButton(), // 条件で絞り込んで表示
-            const ControllerView(), // 全て選択
+            // const ControllerView(), // 全て選択
 
             Expanded(
                 child: ListView.builder(
