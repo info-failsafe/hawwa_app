@@ -7,12 +7,14 @@ class ControllerView extends ConsumerWidget {
   final VoidCallback onPressedSelect;
   final VoidCallback onPressedCancel;
   final VoidCallback onPressedDelete;
+  final bool hasCheckedItems;
 
   const ControllerView({
     super.key,
     required this.onPressedSelect,
     required this.onPressedCancel,
     required this.onPressedDelete,
+    required this.hasCheckedItems,
     // required this.id,
   });
 
@@ -47,29 +49,20 @@ class ControllerView extends ConsumerWidget {
                 ),
               ],
             ),
-            TextButton.icon(
-              style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(Colors.grey)),
-              // onPressed: () => showDialog(
-              //   //編集タップ時のダイアログ
-              //   context: context,
-              //   // builder: (BuildContext context) => const RemoveDialog(
-              //   //    onPressed: () => ref
-              //   //                   .read(tagListProvider.notifier)
-              //   //                   .remove(idx),
-              //   // ),
-              //   ),
-              // ),
-              // onPressed: () {},
-              onPressed: () => showDialog(
-                  //編集タップ時のダイアログ
-                  context: context,
-                  builder: (BuildContext context) =>
-                      RemoveDialog(onPressed: onPressedDelete)),
-              // onPressed: onPressedDelete,
-              label: const Text('全て削除'),
-              icon: const Icon(Icons.delete),
-            ),
+            if (hasCheckedItems)
+              TextButton.icon(
+                style: ButtonStyle(
+                  foregroundColor: WidgetStateProperty.all(Colors.grey),
+                ),
+                onPressed: () => showDialog(
+                    //編集タップ時のダイアログ
+                    context: context,
+                    builder: (BuildContext context) =>
+                        RemoveDialog(onPressed: onPressedDelete)),
+                // onPressed: onPressedDelete,
+                label: const Text('選択項目を全削除'),
+                icon: const Icon(Icons.delete),
+              ),
           ],
         ),
       ),

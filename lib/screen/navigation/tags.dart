@@ -68,6 +68,10 @@ class Tags extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // List<Tag> tagList = ref.watch(tagListProvider);
     TagListNotifier tagListNotifier = ref.read(tagListProvider.notifier);
+    final tags = ref.watch(tagListProvider);
+
+    // チェックされているアイテムが1つ以上あるかどうかを確認
+    final bool hasCheckedItems = tags.any((tag) => tag.checked);
 
     return Scaffold(
       appBar: NavigationAppBar(
@@ -108,6 +112,7 @@ class Tags extends ConsumerWidget {
               ref.read(tagListProvider.notifier).remove(i);
             }
           },
+          hasCheckedItems: hasCheckedItems,
         ), // 全て選択
 
         Expanded(child: Consumer(builder: (context, watch, child) {
