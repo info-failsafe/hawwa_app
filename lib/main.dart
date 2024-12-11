@@ -99,8 +99,6 @@ class LogIn extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 32),
-                    const Text('アカウントかパスワードが間違っています'),
-                    const SizedBox(height: 32),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       padding: const EdgeInsets.only(
@@ -120,6 +118,7 @@ class LogIn extends ConsumerWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 32),
                   ],
                 )
               : const SizedBox(height: 32),
