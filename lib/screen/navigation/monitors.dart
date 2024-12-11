@@ -47,6 +47,20 @@ class MonitorListNotifier extends StateNotifier<List<Monitor>> {
         break;
     }
   }
+
+  // 一括でチェックを入れるメソッド
+  void changeAll() {
+    state = [
+      for (int i = 0; i < state.length; i++) state[i].copyWith(checked: true)
+    ];
+  }
+
+  // 一括でチェックを解除するメソッド
+  void cancelAll() {
+    state = [
+      for (int i = 0; i < state.length; i++) state[i].copyWith(checked: false)
+    ];
+  }
 }
 
 class Monitors extends ConsumerWidget with WidgetsBindingObserver {
@@ -109,7 +123,12 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
   Widget build(BuildContext context, WidgetRef ref) {
     MonitorListNotifier monitorListNotifier =
         ref.read(monitorListProvider.notifier);
+
     _getTagList(ref);
+
+    final monitors = ref.watch(monitorListProvider);
+    // チェックされているアイテムが1つ以上あるかどうかを確認
+    final bool hasCheckedItems = monitors.any((monitor) => monitor.checked);
 
     return Scaffold(
       appBar: NavigationAppBar(
@@ -142,8 +161,28 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
               text: ref.watch(filterTextProvider),
             ),
             const SizedBox(height: 8),
-            const RefineButton(), // 条件で絞り込んで表示
+            const RefineButton(),
+            // const RefineButton(child: Column()), // 条件で絞り込んで表示
             // const ControllerView(), // 全て選択
+            ControllerView(
+              // onPressed: () ,
+              // onPressed: () => ref.read(tagListProvider.notifier).changeAll(),
+              onPressedCancel: () {
+                ref.read(monitorListProvider.notifier).cancelAll();
+              },
+              onPressedSelect: () {
+                ref.read(monitorListProvider.notifier).changeAll();
+              },
+              onPressedDelete: () {
+                for (int i =
+                        ref.read(tagListProvider.notifier).state.length - 1;
+                    i >= 0;
+                    i--) {
+                  ref.read(monitorListProvider.notifier).remove(i);
+                }
+              },
+              hasCheckedItems: hasCheckedItems,
+            ),
 
             Expanded(
               child: ListView.builder(

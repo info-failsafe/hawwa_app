@@ -63,20 +63,20 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
   }
 
   void getList() async {
-    Response response;
-    try {
-      response = await Constants.dio.get(
-          '${Constants.apiDomain}/rest/model/tags/list/',
-          queryParameters: {
-            'flag': 2,
-            'keywords': '',
-            'limit': 100,
-            'sort': 'modified',
-            'direction': 'desc',
-          });
-    } on DioError catch (e) {
-      Constants.logger.d(e.message);
-    }
+    // Response response;
+    // try {
+    //   response = await Constants.dio.get(
+    //       '${Constants.apiDomain}/rest/model/tags/list/',
+    //       queryParameters: {
+    //         'flag': 2,
+    //         'keywords': '',
+    //         'limit': 100,
+    //         'sort': 'modified',
+    //         'direction': 'desc',
+    //       });
+    // } on DioError catch (e) {
+    //   Constants.logger.d(e.message);
+    // }
   }
 }
 

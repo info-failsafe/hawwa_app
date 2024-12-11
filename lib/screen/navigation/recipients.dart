@@ -44,6 +44,20 @@ class RecipientListNotifier extends StateNotifier<List<Recipient>> {
         break;
     }
   }
+
+  // 一括でチェックを入れるメソッド
+  void changeAll() {
+    state = [
+      for (int i = 0; i < state.length; i++) state[i].copyWith(checked: true)
+    ];
+  }
+
+  // 一括でチェックを解除するメソッド
+  void cancelAll() {
+    state = [
+      for (int i = 0; i < state.length; i++) state[i].copyWith(checked: false)
+    ];
+  }
 }
 
 class Recipients extends ConsumerWidget {
@@ -53,6 +67,10 @@ class Recipients extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     RecipientListNotifier recipientListNotifier =
         ref.read(recipientListProvider.notifier);
+
+    final recipients = ref.watch(recipientListProvider);
+    // チェックされているアイテムが1つ以上あるかどうかを確認
+    final bool hasCheckedItems = recipients.any((monitor) => monitor.checked);
 
     return Scaffold(
       appBar: NavigationAppBar(
@@ -81,7 +99,24 @@ class Recipients extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             const RefineButton(), // 条件で絞り込んで表示
-            // const ControllerView(), // 全て選択
+            ControllerView(
+              onPressedCancel: () {
+                ref.read(recipientListProvider.notifier).cancelAll();
+              },
+              onPressedSelect: () {
+                ref.read(recipientListProvider.notifier).changeAll();
+              },
+              onPressedDelete: () {
+                for (int i =
+                        ref.read(recipientListProvider.notifier).state.length -
+                            1;
+                    i >= 0;
+                    i--) {
+                  ref.read(recipientListProvider.notifier).remove(i);
+                }
+              },
+              hasCheckedItems: hasCheckedItems,
+            ),
 
             Expanded(
                 child: ListView.builder(
