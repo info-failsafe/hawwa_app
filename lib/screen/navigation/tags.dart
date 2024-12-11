@@ -1,11 +1,13 @@
 // import 'package:flutter/foundation.dart';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hawwa_app/components/containers/card.dart';
 
 import 'package:hawwa_app/freezed/tag.dart';
 
+import 'package:hawwa_app/constants.dart';
 import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/screen/drawers/header.dart';
 import 'package:hawwa_app/components/buttons/edit.dart';
@@ -59,6 +61,23 @@ class TagListNotifier extends StateNotifier<List<Tag>> {
       for (int i = 0; i < state.length; i++) state[i].copyWith(checked: false)
     ];
   }
+
+  void getList() async {
+    Response response;
+    try {
+      response = await Constants.dio.get(
+          '${Constants.apiDomain}/rest/model/tags/list/',
+          queryParameters: {
+            'flag': 2,
+            'keywords': '',
+            'limit': 100,
+            'sort': 'modified',
+            'direction': 'desc',
+          });
+    } on DioError catch (e) {
+      Constants.logger.d(e.message);
+    }
+  }
 }
 
 class Tags extends ConsumerWidget {
@@ -72,6 +91,7 @@ class Tags extends ConsumerWidget {
 
     // チェックされているアイテムが1つ以上あるかどうかを確認
     final bool hasCheckedItems = tags.any((tag) => tag.checked);
+    tagListNotifier.getList();
 
     return Scaffold(
       appBar: NavigationAppBar(
