@@ -8,7 +8,7 @@ import 'package:hawwa_app/freezed/monitor.dart';
 import 'package:hawwa_app/components/textfields/filter.dart';
 import 'package:hawwa_app/components/views/controller.dart';
 import 'package:hawwa_app/components/views/refine.dart';
-import 'package:hawwa_app/components/containers/card.dart';
+// import 'package:hawwa_app/components/containers/card.dart';
 import 'package:hawwa_app/screen/drawers/header.dart';
 import 'package:hawwa_app/screen/dialog/remove.dart';
 import 'package:hawwa_app/components/views/update.dart';
@@ -161,12 +161,26 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
               text: ref.watch(filterTextProvider),
             ),
             const SizedBox(height: 8),
-            const RefineButton(),
-            // const RefineButton(child: Column()), // 条件で絞り込んで表示
-            // const ControllerView(), // 全て選択
+            RefineButton(
+                child: Container(
+              padding:
+                  const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        padding: const EdgeInsets.only(
+                            top: 8, bottom: 8, left: 8, right: 8),
+                        child: Text('data'),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )), // 条件で絞り込んで表示
             ControllerView(
-              // onPressed: () ,
-              // onPressed: () => ref.read(tagListProvider.notifier).changeAll(),
               onPressedCancel: () {
                 ref.read(monitorListProvider.notifier).cancelAll();
               },
@@ -175,7 +189,7 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
               },
               onPressedDelete: () {
                 for (int i =
-                        ref.read(tagListProvider.notifier).state.length - 1;
+                        ref.read(monitorListProvider.notifier).state.length - 1;
                     i >= 0;
                     i--) {
                   ref.read(monitorListProvider.notifier).remove(i);
@@ -183,6 +197,12 @@ class Monitors extends ConsumerWidget with WidgetsBindingObserver {
               },
               hasCheckedItems: hasCheckedItems,
             ),
+
+            // ListView.builder(
+            //   itemCount: ref.watch(tagListProvider).length,
+            //   itemBuilder: (ctx, idx) => Text('aa'),
+            //   // SizedBox(height: 24),
+            // ),
 
             Expanded(
               child: ListView.builder(

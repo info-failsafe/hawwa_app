@@ -98,7 +98,7 @@ class Recipients extends ConsumerWidget {
               text: ref.watch(filterTextProvider),
             ),
             const SizedBox(height: 8),
-            const RefineButton(), // 条件で絞り込んで表示
+            // const RefineButton(), // 条件で絞り込んで表示
             ControllerView(
               onPressedCancel: () {
                 ref.read(recipientListProvider.notifier).cancelAll();

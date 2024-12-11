@@ -88,7 +88,6 @@ class Tags extends ConsumerWidget {
     // List<Tag> tagList = ref.watch(tagListProvider);
     TagListNotifier tagListNotifier = ref.read(tagListProvider.notifier);
     final tags = ref.watch(tagListProvider);
-
     // チェックされているアイテムが1つ以上あるかどうかを確認
     final bool hasCheckedItems = tags.any((tag) => tag.checked);
     tagListNotifier.getList();
@@ -115,7 +114,7 @@ class Tags extends ConsumerWidget {
           text: ref.watch(filterTextProvider),
         ),
         const SizedBox(height: 8),
-        const RefineButton(), // 条件で絞り込んで表示
+        // const RefineButton(), // 条件で絞り込んで表示
         ControllerView(
           // onPressed: () ,
           // onPressed: () => ref.read(tagListProvider.notifier).changeAll(),
