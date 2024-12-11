@@ -24,6 +24,7 @@ void main() {
               cardColor: const Color.fromRGBO(43, 63, 84, 1),
               // focusColor: const Color.fromARGB(255, 206, 255, 255),
               primaryColorLight: const Color.fromARGB(255, 202, 243, 236),
+              hintColor: const Color.fromRGBO(255, 217, 225, 1),
               textTheme:
                   ThemeData.light().textTheme.apply(fontFamily: 'Murecho')),
           darkTheme: ThemeData.dark(),
@@ -94,12 +95,31 @@ class LogIn extends ConsumerWidget {
             //         Size(MediaQuery.of(context).size.width * 0.4, 48))),
           ),
           ref.watch(errorProvider)
-              ? const Column(
+              ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 32),
-                    Text('エラー'),
-                    SizedBox(height: 32),
+                    const SizedBox(height: 32),
+                    const Text('アカウントかパスワードが間違っています'),
+                    const SizedBox(height: 32),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      padding: const EdgeInsets.only(
+                          top: 24.0, bottom: 24.0, left: 8.0, right: 8.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).hintColor, // 背景色を指定
+                        borderRadius: BorderRadius.circular(8.0), // ボーダーの丸みを指定
+                      ),
+                      child: const Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 16,
+                          ),
+                          'アカウントかパスワードが間違っています',
+                        ),
+                      ),
+                    ),
                   ],
                 )
               : const SizedBox(height: 32),
