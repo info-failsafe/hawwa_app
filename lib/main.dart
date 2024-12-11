@@ -8,9 +8,10 @@ import 'package:hawwa_app/components/logo.dart';
 import 'package:hawwa_app/components/textfields/custom.dart';
 import 'package:hawwa_app/components/buttons/gradient.dart';
 
-final emailProvider = StateProvider((ref) => '');
-final passwordlProvider = StateProvider((ref) => '');
-final buttonProvider = StateProvider((ref) => true);
+final emailProvider = StateProvider<String>((ref) => 'teshima@failsafe.jp');
+final passwordlProvider = StateProvider<String>((ref) => 'xX0niZhkgMpb');
+final buttonProvider = StateProvider<bool>((ref) => true);
+final errorProvider = StateProvider<bool>((ref) => false);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,8 +37,9 @@ class LogIn extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(height: 96),
           const Logo(),
           const SizedBox(height: 32),
           CustomTextField(
@@ -58,26 +60,32 @@ class LogIn extends ConsumerWidget {
             text: ref.watch(buttonProvider) ? 'ログイン' : '認証中',
             onPressed: ref.watch(buttonProvider)
                 ? () async {
+                    ref.read(errorProvider.notifier).state = false;
                     ref.read(buttonProvider.notifier).state = false;
                     Response response;
                     FormData data = FormData.fromMap({
-                      'email': ref.watch(emailProvider.notifier),
-                      'password': ref.watch(passwordlProvider.notifier),
+                      'email': ref.watch(emailProvider),
+                      'password': ref.watch(passwordlProvider),
                     });
                     Constants.dio.options.validateStatus =
                         (status) => status! < 400;
-                    // response = await dio.post('${Constants.apiDomain}/members/login/',
-                    //     data: data);
-                    // var status = response.statusCode; // 302 ならログイン成功
-                    // if (status == 302) {
-                    //   logger.d(status);
-                    //   Navigator.push(context,
-                    //       MaterialPageRoute(builder: (context) => Monitors()));
-                    // }
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Navigation()));
+                    response = await Constants.dio.post(
+                        '${Constants.apiDomain}/members/login/',
+                        data: data);
+                    var status = response.statusCode; // 302 ならログイン成功
+                    if (status == 302) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Navigation()));
+                    } else {
+                      // ここにエラー
+                      ref.read(errorProvider.notifier).state = true;
+                    }
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const Navigation()));
                     ref.read(buttonProvider.notifier).state = true;
                   }
                 : () {},
@@ -85,7 +93,16 @@ class LogIn extends ConsumerWidget {
             //     minimumSize: MaterialStateProperty.all(
             //         Size(MediaQuery.of(context).size.width * 0.4, 48))),
           ),
-          const SizedBox(height: 32),
+          ref.watch(errorProvider)
+              ? const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 32),
+                    Text('エラー'),
+                    SizedBox(height: 32),
+                  ],
+                )
+              : const SizedBox(height: 32),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
